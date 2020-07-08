@@ -1,0 +1,34 @@
+{
+    "users": [
+        {
+            "_id": "bobsid_xyzbc",
+            "name": "bob",
+            "cards": [
+                {
+                    "_id": "bobcard27",
+                    "name": "Chase Freedom",
+                    "type_id": "chasefreedomid25",
+                    "advanced_promotion": [
+                        {
+                            "_id": "promotion_id_1",
+                            "type": "spend",
+                            "desc": {
+                                "spend_original_amount_dollars": "100",
+                                "return_percent": "10",
+                                "promotion_expiration_date": "20201126"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+
+    "card_types": [
+        {
+            "_id": "chasefreedomid25",
+            "reward_type": "points",
+            "reward_cents": "2" // cents reward regardless of points or cashback
+        }
+    ]
+}

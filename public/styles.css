@@ -1,0 +1,48 @@
+body {
+    font-family: Arial;
+    color: black;
+    text-align: center;
+}
+
+#signed_out,
+#signed_in {
+    display: none;
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+#flash_message {
+}
+
+form input[type="email"],
+form input[type="password"],
+form input[type="text"] {
+    border: 2px solid black;
+    color: black;
+    font-size: 16px;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+form input[type="submit"] {
+    font-size: 16px;
+    border: 2px solid black;
+    padding: 6px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+form {
+    margin-bottom: 18px;
+}
+
+h2 {
+    margin-bottom: 4px;
+}
+
+ul {
+    list-style: none;
+    margin-right: 5%;
+}
