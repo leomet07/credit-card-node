@@ -4,6 +4,17 @@ app.use(express.json());
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 
+if (process.env.SSL == "true") {
+    app.enable("trust proxy");
+
+    app.use(function (req, res, next) {
+        if (req.headers["x-forwarded-proto"] === "https") {
+            return next();
+        }
+        res.redirect("https://" + req.headers.host + req.url);
+    });
+}
+
 app.use(express.static("public"));
 
 // import Routes
