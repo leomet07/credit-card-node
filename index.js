@@ -18,8 +18,8 @@ if (process.env.SSL == "true") {
 app.use(express.static("public"));
 
 // import Routes
-const authRoute = require("./routes/auth");
-const postRoute = require("./routes/cards");
+const authRouter = require("./routes/auth").router;
+const cardRouter = require("./routes/cards").router;
 
 // Connect to db
 mongoose.connect(
@@ -36,8 +36,8 @@ mongoose.connect(
 // Middleware
 
 //Routes Middleware
-app.use("/api/user", authRoute);
-app.use("/api/cards", postRoute);
+app.use("/api/user", authRouter);
+app.use("/api/cards", cardRouter);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Sever is up and running");

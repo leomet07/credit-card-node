@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 router.post("/register", async (req, res) => {
     const validation = registerValidation(req.body);
     if ("error" in validation) {
-        console.log(req.body);
         return res.status(200).end(
             JSON.stringify({
                 message: validation.error.details[0].message,
@@ -113,9 +112,9 @@ router.post("/login", async (req, res) => {
 
 router.get("/verify/:id", (req, res) => {
     let token = req.params.id;
-    console.log(token);
+
     try {
-        const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const verified = check_verify(token);
         if (verified) {
             res.send({
                 valid: true,
@@ -127,4 +126,10 @@ router.get("/verify/:id", (req, res) => {
         });
     }
 });
-module.exports = router;
+
+function check_verify(token) {
+    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+}
+module.exports = {
+    router: router,
+};

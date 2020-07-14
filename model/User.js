@@ -1,32 +1,43 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
+const usercard_schema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        min: 1,
+        max: 255,
+    },
+});
 
-const userScheme = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
         min: 4,
-        max: 255
+        max: 255,
     },
     email: {
         type: String,
         required: true,
         min: 6,
-        max: 255
+        max: 255,
     },
     password: {
         type: String,
         required: true,
         min: 6,
-        max: 1024
+        max: 1024,
     },
     date: {
         type: Date,
-        default: Date.now
-    }
-})
+        default: Date.now,
+    },
+    cards: {
+        type: [usercard_schema],
+        default: [{ name: "testtt" }],
+    },
+});
 
+const userModel = mongoose.model("User", userSchema);
 
-const userModel = mongoose.model("User", userScheme)
-
-module.exports = userModel
+module.exports = userModel;
