@@ -3,6 +3,8 @@ const User = require("../model/User");
 const { registerValidation, loginValidation } = require("../validation");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const actionsRouter = require("./userActions").router;
+
 router.post("/register", async (req, res) => {
     const validation = registerValidation(req.body);
     if ("error" in validation) {
@@ -115,6 +117,7 @@ router.get("/verify/:id", (req, res) => {
 
     try {
         const verified = check_verify(token);
+
         if (verified) {
             res.send({
                 valid: true,
@@ -126,7 +129,7 @@ router.get("/verify/:id", (req, res) => {
         });
     }
 });
-
+router.use("/action", actionsRouter);
 function check_verify(token) {
     return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 }
