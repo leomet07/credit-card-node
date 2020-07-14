@@ -1,8 +1,12 @@
 const router = require("express").Router();
-const verify = require("./verifyToken");
+const verifyToken = require("./verifyToken");
 const Global_Card = require("../model/Global_Card");
 const { cardValidation } = require("../validation");
-router.get("/", verify, async (req, res) => {
+
+// Cards data is only for authenitcated users
+router.use(verifyToken);
+// Get all the cards, or search by params in request body.
+router.get("/", async (req, res) => {
     try {
         const cards = await Global_Card.find(req.body || {});
         res.json(cards);
@@ -10,7 +14,9 @@ router.get("/", verify, async (req, res) => {
         res.json({ message: err.message });
     }
 });
-router.post("/create", verify, async (req, res) => {
+
+// Create a new card if it doesnt exist in the global card lookup table.
+router.post("/create", async (req, res) => {
     const validation = cardValidation(req.body);
     if ("error" in validation) {
         return res.status(200).end(

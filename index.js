@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
-app.use(express.json());
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 
+app.use(express.json());
+
+// Only redirect to SSL if developer allows and states that machine running this has SSL to prevent crashes on computers without SSL
 if (process.env.SSL == "true") {
     app.enable("trust proxy");
 
@@ -14,7 +16,7 @@ if (process.env.SSL == "true") {
         res.redirect("https://" + req.headers.host + req.url);
     });
 }
-
+// Serve static files
 app.use(express.static("public"));
 
 // import Routes

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-
+const check_verify = require("./auth").check_verify;
+// Middleware for private routes
 module.exports = function (req, res, next) {
     const token = req.header("auth-token");
     if (!token) {
@@ -7,7 +8,7 @@ module.exports = function (req, res, next) {
     }
 
     try {
-        const verified = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const verified = check_verify(token);
         req.user = verified;
 
         next();

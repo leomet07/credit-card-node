@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const actionsRouter = require("./userActions").router;
 
+// Register a user
 router.post("/register", async (req, res) => {
     const validation = registerValidation(req.body);
     if ("error" in validation) {
@@ -42,25 +43,24 @@ router.post("/register", async (req, res) => {
     let savedUser;
     try {
         savedUser = await user.save();
-    } catch (err) {
-        //res.sendStatus(400).send({logged_inerr);
-    }
+    } catch (err) {}
 
-    // create and assaign a jwt
+    // Create and assaign a jwt
     const token = jwt.sign(
         {
             _id: savedUser._id,
         },
         process.env.ACCESS_TOKEN_SECRET
     );
+
+    // Send the jwt token back.
     res.header("auth-token", token).send({
         token: token,
         logged_in: true,
     });
 });
 
-// LOGIN
-
+// Log in a user (Just send back their jwt so they can use private routes.)
 router.post("/login", async (req, res) => {
     const validation = loginValidation(req.body);
     if ("error" in validation) {
@@ -86,8 +86,7 @@ router.post("/login", async (req, res) => {
         );
     }
 
-    // check password status
-
+    // Check if password is correct.
     const valid_pass = await bcrypt.compare(req.body.password, user.password);
 
     if (!valid_pass) {
@@ -99,7 +98,7 @@ router.post("/login", async (req, res) => {
         );
     }
 
-    // create and assaign a jwt
+    // Create and assaign a jwt
     const token = jwt.sign(
         {
             _id: user._id,
@@ -112,6 +111,7 @@ router.post("/login", async (req, res) => {
     });
 });
 
+// Verify a User's jwt so the browser can check if the logged in User in cache is correct.
 router.get("/verify/:id", (req, res) => {
     let token = req.params.id;
 
@@ -129,10 +129,14 @@ router.get("/verify/:id", (req, res) => {
         });
     }
 });
+// Add routes for user to be able to interact with his/herself
 router.use("/action", actionsRouter);
+
+// Verify token
 function check_verify(token) {
     return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 }
 module.exports = {
     router: router,
+    check_verify: check_verify,
 };
