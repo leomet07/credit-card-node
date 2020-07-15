@@ -33,8 +33,7 @@ const userSchema = new mongoose.Schema({
         default: Date.now,
     },
     cards: {
-        type: [usercard_schema],
-        default: [{ name: "testtt" }],
+        name: String
     },
 });
 

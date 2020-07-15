@@ -1,86 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link rel="stylesheet" href="styles.css" type="text/css" />
-    </head>
 
-    <body>
-        <div id="app">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="signed_out">
             <h2>Login</h2>
-            <div id="signed_out">
-                <form id="sign_in" autocomplete="off" action="#">
-                    <div class="row">
-                        <div class="col">
-                            <input
-                                id="email_signin"
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                autocomplete="off"
-                                required
-                            />
-                            <br />
-                            <input
-                                id="password_signin"
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                autocomplete="off"
-                                required
-                            />
-                            <br />
-                            <input type="submit" value="Login" />
-                        </div>
+            <form id="sign_in" autocomplete="off" action="#">
+                <div class="row">
+                    <div class="col">
+                        <input id="email_signin" type="email" name="email" placeholder="Email" autocomplete="off"
+                            required />
+                        <br />
+                        <input id="password_signin" type="password" name="password" placeholder="Password"
+                            autocomplete="off" required />
+                        <br />
+                        <input type="submit" value="Login" />
                     </div>
-                </form>
-                <h2>Sign Up!</h2>
-                <form id="sign_up" autocomplete="off" action="#">
-                    <div class="row">
-                        <div class="col">
-                            <input
-                                id="email_signup"
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                autocomplete="off"
-                                required
-                            />
-                            <br />
-                            <input
-                                id="password_signup"
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                autocomplete="off"
-                                required
-                            />
-                            <br />
-                            <input
-                                id="name_signup"
-                                type="text"
-                                name="text"
-                                placeholder="Name"
-                                autocomplete="off"
-                                required
-                            />
-                            <br />
-                            <input type="submit" value="Register" />
-                        </div>
+                </div>
+            </form>
+            <h2>Sign Up!</h2>
+            <form id="sign_up" autocomplete="off" action="#">
+                <div class="row">
+                    <div class="col">
+                        <input id="email_signup" type="email" name="email" placeholder="Email" autocomplete="off"
+                            required />
+                        <br />
+                        <input id="password_signup" type="password" name="password" placeholder="Password"
+                            autocomplete="off" required />
+                        <br />
+                        <input id="name_signup" type="text" name="text" placeholder="Name" autocomplete="off"
+                            required />
+                        <br />
+                        <input type="submit" value="Register" />
                     </div>
-                </form>
-                <p id="flash_message"></p>
-            </div>
-
-            <div id="signed_in">
-                <ul id="cards"></ul>
-                <button id="logout">Logout</button>
-            </div>
+                </div>
+            </form>
+            <p id="flash_message"></p>
         </div>
 
-        <script src="access_server.js"></script>
-        <script src="script.js"></script>
-    </body>
+        <div id="signed_in">
+            <h2>You are signed in!</h2>
+            <ul id="cards"></ul>
+            <button id="logout">Logout</button>
+        </div>
+    </div>
+
+    <script src="access_server.js"></script>
+    <script src="script.js"></script>
+</body>
+
 </html>
