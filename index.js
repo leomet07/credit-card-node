@@ -41,6 +41,8 @@ mongoose.connect(
 app.use("/api/user", authRouter);
 app.use("/api/cards", cardRouter);
 
+
+
 app.listen(process.env.PORT || 3000, () => {
     console.log("Sever is up and running");
 });
