@@ -56,9 +56,22 @@ window.onload = async function () {
 
         update_auth_display(logged_in);
     });
+    let global_card_form = document.querySelector("#add_global_card");
+
+    global_card_form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        let global_card_name = document.querySelector("#global_card_name").value;
+
+
+        await create_global_card({
+            name: global_card_name
+        }, auth_token)
+
+
+    });
 };
 
-// Prevent xss
 
 
 async function use_cards(auth_token) {
@@ -80,7 +93,7 @@ async function use_cards(auth_token) {
                 value = value.replace(">", "&gt;");
                 value = value.replace("/", "&sol;");
 
-                text += "<b> ⊚ </b> " + key + ": " + value
+                text += " ⊚  " + key + ": " + value
             }
         }
         imageElement.innerHTML = text;

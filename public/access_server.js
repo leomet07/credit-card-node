@@ -83,11 +83,11 @@ async function login_request(email, password) {
         await use_cards(auth_token);
 
         update_auth_display(logged_in);
-        display_flash_message("");
+        display_auth_flash_message("");
     } else {
         logged_in = false;
         auth_token = "";
-        display_flash_message(r.message);
+        display_auth_flash_message(r.message);
     }
 }
 
@@ -131,14 +131,35 @@ async function signup_request(email, password, name) {
         await use_cards(auth_token);
 
         update_auth_display(logged_in);
-        display_flash_message("");
+        display_auth_flash_message("");
     } else {
         logged_in = false;
         auth_token = "";
-        display_flash_message(r.message);
+        display_auth_flash_message(r.message);
     }
 }
 
-function display_flash_message(message) {
+function display_auth_flash_message(message) {
     document.getElementById("flash_message").innerHTML = message;
+}
+
+async function create_global_card(body, auth_token) {
+    const raw = JSON.stringify(body)
+    const requestOptions = {
+        "method": "POST",
+        "headers": {
+            "content-type": "application/json",
+            "auth-token": auth_token
+        },
+        "body": raw
+    }
+    await fetch("/api/cards/create", requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+            result = JSON.parse(result);
+            console.log("Result: ", result);
+
+        });
+
+
 }
