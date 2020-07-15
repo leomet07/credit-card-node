@@ -8,13 +8,14 @@ body {
 #signed_in {
     display: none;
 }
+
 #app {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
-#flash_message {
-}
+
+#flash_message {}
 
 form input[type="email"],
 form input[type="password"],
@@ -34,6 +35,7 @@ form input[type="submit"] {
     margin-top: 4px;
     margin-bottom: 4px;
 }
+
 form {
     margin-bottom: 18px;
 }

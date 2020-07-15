@@ -58,17 +58,37 @@ window.onload = async function () {
     });
 };
 
+// Prevent xss
+
+
 async function use_cards(auth_token) {
     const cards = await get_cards(auth_token);
 
     const global_cards_element = document.getElementById("global_cards")
     console.log("cards: ", cards);
     global_cards_element.innerHTML = "";
-    for (let i = 0; i < cards.length; i++) {
-        const post = cards[i];
-        global_cards_element.innerHTML +=
-            "<li> " + JSON.stringify(post) + "</li> ";
-    }
+
+    cards.forEach((card) => {
+        const imageElement = document.createElement('li');
+        let text = "";
+        for (key of Object.keys(card)) {
+
+            key = String(key);
+            if (key != "__v" && key != "_id") {
+                let value = String(card[key]);
+                value = value.replace("<", "&lt;");
+                value = value.replace(">", "&gt;");
+                value = value.replace("/", "&sol;");
+
+                text += "<b> ⊚ </b> " + key + ": " + value
+            }
+        }
+        imageElement.innerHTML = text;
+
+        global_cards_element.append(imageElement);
+    });
+
+
 }
 
 function update_auth_display(logged_in) {
