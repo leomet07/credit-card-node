@@ -7,6 +7,14 @@ const UsercardSchema = new mongoose.Schema({
         min: 4,
         max: 255,
     },
+
+    global_card_id: {
+        type: String,
+        required: true,
+        min: 4,
+        max: 255,
+    },
+
 });
 
 const UsercardModel = mongoose.model("UserCard", UsercardSchema);
