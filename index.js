@@ -42,7 +42,7 @@ app.use("/api/user", authRouter);
 app.use("/api/cards", cardRouter);
 
 
-
-app.listen(process.env.PORT || 3000, () => {
-    console.log("Sever is up and running");
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+    console.log("Sever is up and running at port " + port);
 });
