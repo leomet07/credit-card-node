@@ -6,7 +6,9 @@ window.onload = async function () {
 
     auth_token = window.localStorage.getItem("auth-token");
 
-    let { valid } = await verify_token(auth_token);
+    let {
+        valid
+    } = await verify_token(auth_token);
 
     logged_in = valid;
 
@@ -59,11 +61,12 @@ window.onload = async function () {
 async function use_cards(auth_token) {
     const cards = await get_cards(auth_token);
 
+    const global_cards_element = document.getElementById("global_cards")
     console.log("cards: ", cards);
-    document.getElementById("cards").innerHTML = "";
+    global_cards_element.innerHTML = "";
     for (let i = 0; i < cards.length; i++) {
         const post = cards[i];
-        document.getElementById("cards").innerHTML +=
+        global_cards_element.innerHTML +=
             "<li> " + JSON.stringify(post) + "</li> ";
     }
 }
