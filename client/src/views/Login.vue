@@ -1,6 +1,6 @@
 <template>
     <div class="login">
-        <h1>This is an Login page</h1>
+        <h3>This is an Login page</h3>
         <div id="secure" v-if="!$global.logged_in">
             <input
                 id="email_signin"

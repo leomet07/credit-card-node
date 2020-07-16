@@ -8,7 +8,8 @@ Vue.config.productionTip = false
 
 const shared = {
     message: "my global message",
-    logged_in: false
+    logged_in: false,
+    checked_token: false
 }
 
 shared.install = function () {

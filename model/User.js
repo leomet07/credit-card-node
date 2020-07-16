@@ -32,9 +32,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    cards: {
-        name: String
-    },
+    cards: []
 });
 
 const userModel = mongoose.model("User", userSchema);

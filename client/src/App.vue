@@ -1,17 +1,23 @@
 <template>
     <div id="app">
         <div id="nav">
-            <router-link to="/">Home</router-link>&nbsp;
-            <router-link v-if="!$global.logged_in" to="/login"
+            <router-link class="link" to="/">Home</router-link>&nbsp;
+            <router-link class="link" v-if="!$global.logged_in" to="/login"
                 >Login </router-link
             >&nbsp;
 
-            <router-link v-if="!$global.logged_in" to="/signup"
+            <router-link class="link" v-if="!$global.logged_in" to="/signup"
                 >Sign Up </router-link
             >&nbsp;
 
-            <a href="#" v-if="$global.logged_in" v-on:click="logout">Logout </a
-            >&nbsp;
+            <span
+                class="link"
+                href="#"
+                v-if="$global.logged_in"
+                v-on:click="logout"
+                >Logout</span
+            >
+            &nbsp;
         </div>
         <router-view />
     </div>
@@ -27,6 +33,8 @@ export default {
             localStorage.clear();
             this.$global.auth_token = "";
             this.$global.logged_in = false;
+            // Redirect to homepage
+            this.$router.push("login");
         },
     },
 
@@ -44,7 +52,12 @@ export default {
             console.log({ valid, _id });
 
             this.$global.logged_in = valid;
+            this.$global.auth_token = auth_token;
+            this.$global.checked_token = true;
+            console.log("this.global in app", this.$global);
         }
+
+        this.$root.$emit("checked_token");
     },
 };
 
@@ -88,12 +101,13 @@ async function verify_token(token) {
     padding: 30px;
 }
 
-#nav a {
+#nav .link {
     font-weight: bold;
     color: #2c3e50;
+    text-decoration: underline;
 }
 
-#nav a.router-link-exact-active {
+#nav .link.router-link-exact-active {
     color: #42b983;
 }
 </style>
