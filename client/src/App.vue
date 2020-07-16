@@ -1,9 +1,17 @@
 <template>
     <div id="app">
         <div id="nav">
-            <router-link to="/">Home</router-link> |
-            <router-link to="/login">Login</router-link> |
-            <a href="#" v-on:click="logout">Logout</a>
+            <router-link to="/">Home</router-link>&nbsp;
+            <router-link v-if="!$global.logged_in" to="/login"
+                >Login </router-link
+            >&nbsp;
+
+            <router-link v-if="!$global.logged_in" to="/signup"
+                >Sign Up </router-link
+            >&nbsp;
+
+            <a href="#" v-if="$global.logged_in" v-on:click="logout">Logout </a
+            >&nbsp;
         </div>
         <router-view />
     </div>
