@@ -5,15 +5,13 @@ window.onload = async function () {
     console.log("Loaded");
 
     auth_token = window.localStorage.getItem("auth-token");
+    if (auth_token) {
+        let { valid, _id } = await verify_token(auth_token);
 
-    let {
-        valid,
-        _id
-    } = await verify_token(auth_token);
-
-    uid = _id;
-    console.log("uid:", uid)
-    logged_in = valid;
+        uid = _id;
+        console.log("uid:", uid);
+        logged_in = valid;
+    }
 
     update_auth_display(logged_in);
 
@@ -64,31 +62,29 @@ window.onload = async function () {
     global_card_form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        let global_card_name = document.querySelector("#global_card_name").value;
+        let global_card_name = document.querySelector("#global_card_name")
+            .value;
 
-
-        await create_global_card({
-            name: global_card_name
-        }, auth_token)
-
-
+        await create_global_card(
+            {
+                name: global_card_name,
+            },
+            auth_token
+        );
     });
 };
-
-
 
 async function use_cards(auth_token) {
     const cards = await get_cards(auth_token);
 
-    const global_cards_element = document.getElementById("global_cards")
+    const global_cards_element = document.getElementById("global_cards");
     console.log("cards: ", cards);
     global_cards_element.innerHTML = "";
 
     cards.forEach((card) => {
-        const imageElement = document.createElement('li');
+        const imageElement = document.createElement("li");
         let text = "";
         for (key of Object.keys(card)) {
-
             key = String(key);
             if (key != "__v" && key != "_id") {
                 let value = String(card[key]);
@@ -96,15 +92,13 @@ async function use_cards(auth_token) {
                 value = value.replace(">", "&gt;");
                 value = value.replace("/", "&sol;");
 
-                text += " ⊚  " + key + ": " + value
+                text += " ⊚  " + key + ": " + value;
             }
         }
         imageElement.innerHTML = text;
 
         global_cards_element.append(imageElement);
     });
-
-
 }
 
 function update_auth_display(logged_in) {

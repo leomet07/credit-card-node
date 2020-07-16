@@ -1,0 +1,91 @@
+<template>
+    <div id="app">
+        <div id="nav">
+            <router-link to="/">Home</router-link> |
+            <router-link to="/login">Login</router-link> |
+            <a href="#" v-on:click="logout">Logout</a>
+        </div>
+        <router-view />
+    </div>
+</template>
+
+<script>
+export default {
+    name: "App",
+    components: {},
+    methods: {
+        logout: async function() {
+            // logout
+            localStorage.clear();
+            this.$global.auth_token = "";
+            this.$global.logged_in = false;
+        },
+    },
+
+    data() {
+        return {};
+    },
+    async created() {
+        // console.log("App created");
+        // console.log("My global in app: ", this.$global.message);
+        let auth_token = window.localStorage.getItem("auth-token");
+        console.log("Auth token:", auth_token);
+        //let uid;
+        if (auth_token) {
+            let { valid, _id } = await verify_token(auth_token);
+            console.log({ valid, _id });
+
+            this.$global.logged_in = valid;
+        }
+    },
+};
+
+async function verify_token(token) {
+    if (!token || token == "") {
+        return {
+            valid: false,
+            msg: "token not valid",
+        };
+    }
+    var requestOptions = {
+        method: "GET",
+        redirect: "follow",
+    };
+    let r = {
+        valid: false,
+    };
+    await fetch(
+        "http://127.0.0.1:3000/api/user/verify/" + token,
+        requestOptions
+    )
+        .then((response) => response.text())
+        .then((result) => {
+            r = JSON.parse(result);
+        })
+        .catch((error) => console.log("error", error));
+
+    return r;
+}
+</script>
+<style>
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+
+#nav {
+    padding: 30px;
+}
+
+#nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+    color: #42b983;
+}
+</style>

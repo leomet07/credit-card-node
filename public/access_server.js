@@ -108,13 +108,13 @@ async function signup_request(email, password, name) {
         redirect: "follow",
     };
 
-    let r = null;
+    let response = null;
 
     try {
         await fetch("/api/user/register/", requestOptions)
-            .then((response) => response.text())
-            .then((result) => {
-                result = JSON.parse(result);
+            .then((r) => r.text())
+            .then((r) => {
+                result = JSON.parse(r);
                 console.log("Result: " + JSON.stringify(result));
                 r = result;
                 auth_token = result.token;
@@ -123,7 +123,7 @@ async function signup_request(email, password, name) {
         logged_in = false;
     }
 
-    if (r.logged_in) {
+    if (response.logged_in) {
         logged_in = true;
         window.localStorage.setItem("auth-token", auth_token);
         console.log("AUTH TOKEN", auth_token);
@@ -153,10 +153,16 @@ async function create_global_card(body, auth_token) {
         },
         body: raw,
     };
+    let response = null;
     await fetch("/api/cards/create", requestOptions)
-        .then((response) => response.text())
-        .then((result) => {
-            result = JSON.parse(result);
-            console.log("Result: ", result);
+        .then((text) => text.text())
+        .then((r) => {
+            response = JSON.parse(r);
+            console.log("Result: ", response);
         });
+
+    if (response.created === false) {
+        // Not created due to bad card details in request
+        alert(response.message)
+    }
 }
