@@ -144,22 +144,19 @@ function display_auth_flash_message(message) {
 }
 
 async function create_global_card(body, auth_token) {
-    const raw = JSON.stringify(body)
+    const raw = JSON.stringify(body);
     const requestOptions = {
-        "method": "POST",
-        "headers": {
+        method: "POST",
+        headers: {
             "content-type": "application/json",
-            "auth-token": auth_token
+            "auth-token": auth_token,
         },
-        "body": raw
-    }
+        body: raw,
+    };
     await fetch("/api/cards/create", requestOptions)
         .then((response) => response.text())
         .then((result) => {
             result = JSON.parse(result);
             console.log("Result: ", result);
-
         });
-
-
 }

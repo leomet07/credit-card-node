@@ -1,15 +1,18 @@
 let auth_token = "";
 let logged_in = false;
-
+let uid = null;
 window.onload = async function () {
     console.log("Loaded");
 
     auth_token = window.localStorage.getItem("auth-token");
 
     let {
-        valid
+        valid,
+        _id
     } = await verify_token(auth_token);
 
+    uid = _id;
+    console.log("uid:", uid)
     logged_in = valid;
 
     update_auth_display(logged_in);

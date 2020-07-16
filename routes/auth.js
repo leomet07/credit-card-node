@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const User = require("../model/User");
-const { registerValidation, loginValidation } = require("../validation");
+const {
+    registerValidation,
+    loginValidation
+} = require("../validation");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const actionsRouter = require("./userActions").router;
@@ -46,8 +49,7 @@ router.post("/register", async (req, res) => {
     } catch (err) {}
 
     // Create and assaign a jwt
-    const token = jwt.sign(
-        {
+    const token = jwt.sign({
             _id: savedUser._id,
         },
         process.env.ACCESS_TOKEN_SECRET
@@ -99,8 +101,7 @@ router.post("/login", async (req, res) => {
     }
 
     // Create and assaign a jwt
-    const token = jwt.sign(
-        {
+    const token = jwt.sign({
             _id: user._id,
         },
         process.env.ACCESS_TOKEN_SECRET
@@ -117,10 +118,11 @@ router.get("/verify/:id", (req, res) => {
 
     try {
         const verified = check_verify(token);
-
+        console.log(verified)
         if (verified) {
             res.send({
                 valid: true,
+                _id: verified["_id"]
             });
         }
     } catch (err) {
