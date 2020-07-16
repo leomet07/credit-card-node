@@ -55,3 +55,9 @@ async function get_cards(auth_token) {
     return cards;
 }
 </script>
+<style scoped>
+ul {
+    list-style: none;
+    margin-right: 5%;
+}
+</style>
