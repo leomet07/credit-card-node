@@ -10,12 +10,12 @@
                 >Sign Up </router-link
             >&nbsp;
 
-            <span
+            <a
                 class="link"
                 href="#"
                 v-if="$global.logged_in"
                 v-on:click="logout"
-                >Logout</span
+                >Logout</a
             >
             &nbsp;
         </div>

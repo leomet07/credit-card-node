@@ -1,7 +1,10 @@
 const router = require("express").Router();
 const verifyToken = require("./verifyToken");
 const Global_Card = require("../model/Global_Card");
-const { cardValidation } = require("../validation");
+const {
+    cardValidation
+} = require("../validation");
+
 
 // Cards data is only for authenitcated users
 router.use(verifyToken);
@@ -11,7 +14,9 @@ router.get("/", async (req, res) => {
         const cards = await Global_Card.find(req.body || {});
         res.json(cards);
     } catch (err) {
-        res.json({ message: err.message });
+        res.json({
+            message: err.message
+        });
     }
 });
 
@@ -48,10 +53,44 @@ router.post("/create", async (req, res) => {
     let savedCard;
     try {
         savedCard = await card.save();
-        res.json({ card: savedCard, created: true });
+        res.json({
+            card: savedCard,
+            created: true
+        });
     } catch (err) {
         //res.sendStatus(400).send({logged_inerr);
     }
 });
+
+
+router.delete("/delete", async function (req, res) {
+    const query = req.body;
+    if (query === {}) {
+        return res.send({
+            deleted: false
+        })
+    }
+    console.log(query)
+
+    Global_Card.findByIdAndDelete(req.body["_id"], function (err) {
+        if (err) {
+            return res.send({
+                deleted: false
+            })
+
+        } else {
+            return res.send({
+                deleted: true
+            })
+
+        }
+
+
+    });
+
+
+
+});
+
 
 module.exports.router = router;
