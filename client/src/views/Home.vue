@@ -3,11 +3,11 @@
         <img alt="Vue logo" src="../assets/logo.png" />
         <div v-if="$global.logged_in">
             <h1>You are logged in!</h1>
-            <ul id="example-1">
-                <li v-for="card in cards" :key="card.name">
-                    {{ card }}
-                </li>
-            </ul>
+            <div id="global_cards">
+                <p v-for="cyclecard in cards" :key="cyclecard.name">
+                    <GlobalCard class="global_card" :name="cyclecard.name" />
+                </p>
+            </div>
 
             <br />
             <form
@@ -34,9 +34,12 @@
 </template>
 
 <script>
+// @ is an alias to /src
+import GlobalCard from "@/components/GlobalCardComponent.vue";
+
 export default {
     name: "Home",
-    components: {},
+    components: { GlobalCard },
     methods: {
         create_global_card: async function(e) {
             e.preventDefault();
@@ -121,8 +124,7 @@ async function get_cards(auth_token) {
 }
 </script>
 <style scoped>
-ul {
-    list-style: none;
-    margin-right: 5%;
+#global_cards {
+    display: inline-block;
 }
 </style>

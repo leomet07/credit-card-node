@@ -5,7 +5,6 @@ const {
     cardValidation
 } = require("../validation");
 
-
 // Cards data is only for authenitcated users
 router.use(verifyToken);
 // Get all the cards, or search by params in request body.
@@ -15,7 +14,7 @@ router.get("/", async (req, res) => {
         res.json(cards);
     } catch (err) {
         res.json({
-            message: err.message
+            message: err.message,
         });
     }
 });
@@ -55,42 +54,43 @@ router.post("/create", async (req, res) => {
         savedCard = await card.save();
         res.json({
             card: savedCard,
-            created: true
+            created: true,
         });
     } catch (err) {
         //res.sendStatus(400).send({logged_inerr);
     }
 });
 
-
 router.delete("/delete", async function (req, res) {
     const query = req.body;
-    if (query === {}) {
+    if (query === {} || !query["_id"]) {
         return res.send({
-            deleted: false
-        })
+            deleted: false,
+            message: "No id specified in object.",
+        });
     }
-    console.log(query)
 
-    Global_Card.findByIdAndDelete(req.body["_id"], function (err) {
+    // Check if card exists before deleting
+    let check_card = await Global_Card.findById(query["_id"]);
+    if (!check_card) {
+        return res.send({
+            deleted: false,
+            message: "Card with that ID doesnt exist.",
+        });
+    }
+
+    Global_Card.findByIdAndDelete(query["_id"], function (err) {
         if (err) {
             return res.send({
-                deleted: false
-            })
-
+                deleted: false,
+                message: err.message,
+            });
         } else {
             return res.send({
-                deleted: true
-            })
-
+                deleted: true,
+            });
         }
-
-
     });
-
-
-
 });
-
 
 module.exports.router = router;

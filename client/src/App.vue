@@ -1,23 +1,26 @@
 <template>
     <div id="app">
         <div id="nav">
-            <router-link class="link" to="/">Home</router-link>&nbsp;
-            <router-link class="link" v-if="!$global.logged_in" to="/login"
-                >Login </router-link
-            >&nbsp;
-
-            <router-link class="link" v-if="!$global.logged_in" to="/signup"
-                >Sign Up </router-link
-            >&nbsp;
-
-            <a
-                class="link"
-                href="#"
-                v-if="$global.logged_in"
-                v-on:click="logout"
-                >Logout</a
+            <span>
+                &nbsp;
+                <router-link class="link" to="/">Home</router-link>
+                &nbsp;|</span
             >
-            &nbsp;
+            <span v-if="!$global.logged_in">
+                &nbsp;
+                <router-link class="link" to="/login">Login </router-link
+                >&nbsp;|
+            </span>
+            <span v-if="!$global.logged_in">
+                &nbsp;
+                <router-link class="link" to="/signup">Sign Up </router-link>
+                &nbsp;</span
+            >
+            <span v-if="$global.logged_in">
+                &nbsp;
+                <a class="link" href="#" v-on:click="logout">Logout</a>
+                &nbsp;
+            </span>
         </div>
         <router-view />
     </div>
@@ -33,7 +36,7 @@ export default {
             localStorage.clear();
             this.$global.auth_token = "";
             this.$global.logged_in = false;
-            // Redirect to homepage
+            // Redirect to login
             this.$router.push("login");
         },
     },
