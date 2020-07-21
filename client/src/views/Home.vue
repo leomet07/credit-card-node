@@ -1,6 +1,5 @@
 <template>
     <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
         <div v-if="$global.logged_in">
             <h1>You are logged in!</h1>
             <div id="global_cards">
@@ -21,18 +20,19 @@
                 autocomplete="off"
                 action="#"
             >
-                <input
+                <TextInput
                     id="global_card_name"
                     ref="global_card_name"
                     type="text"
                     name="global_card_name"
-                    placeholder="name"
+                    placeholder="Card Name"
                     autocomplete="off"
+                    class="input"
                     required
                 />
                 <br />
 
-                <input type="submit" value="Submit" />
+                <input type="submit" class="button" value="Submit" />
             </form>
         </div>
     </div>
@@ -41,17 +41,18 @@
 <script>
 // @ is an alias to /src
 import GlobalCard from "@/components/GlobalCardComponent.vue";
+import TextInput from "@/components/TextInput.vue";
 
 export default {
     name: "Home",
-    components: { GlobalCard },
+    components: { GlobalCard, TextInput },
     methods: {
         create_global_card: async function(e) {
             e.preventDefault();
 
             console.log("Submitted");
             if (this.$global.checked_token) {
-                const name = this.$refs.global_card_name.value;
+                const name = this.$refs.global_card_name.$refs.text.value;
                 const body = { name: name };
 
                 const raw = JSON.stringify(body);
@@ -137,5 +138,20 @@ async function get_cards(auth_token) {
 <style scoped>
 #global_cards {
     display: inline-block;
+}
+.input {
+    display: inline-block;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 15px;
+}
+.button {
+    margin-top: 15px;
+    font-size: 17px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 7px;
+    padding-left: 7px;
+    border: 1px solid black;
 }
 </style>

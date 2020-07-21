@@ -1,6 +1,6 @@
 <template>
     <div id="card">
-        <p>{{ name }} {{ id }}</p>
+        <p>{{ name }}</p>
         <button v-on:click="delete_card">Delete me</button>
     </div>
 </template>
@@ -64,6 +64,16 @@ a {
 #card {
     padding: 5%;
     width: 100%;
+    border: 1px solid black;
+}
+
+button {
+    margin-top: 15px;
+    font-size: 13px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 7px;
+    padding-left: 7px;
     border: 1px solid black;
 }
 </style>

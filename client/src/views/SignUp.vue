@@ -1,52 +1,61 @@
-SS<template>
+<template>
     <div class="login">
-        <h1>This is an Login page</h1>
+        <h2>Sign Up</h2>
         <div id="secure" v-if="!$global.logged_in">
-            <input
+            <TextInput
                 id="email_signup"
                 ref="email_signup"
                 type="email"
                 name="email"
                 placeholder="Email"
                 autocomplete="off"
+                class="input"
                 required
             />
             <br />
-            <input
+            <TextInput
                 id="password_signup"
                 ref="password_signup"
                 type="password"
                 name="password"
                 placeholder="Password"
                 autocomplete="off"
+                class="input"
                 required
             />
             <br />
-            <input
+            <TextInput
                 id="name_signup"
                 ref="name_signup"
                 type="name"
                 name="name"
                 placeholder="Name"
                 autocomplete="off"
+                class="input"
                 required
             />
             <br />
-            <input v-on:click="signup" type="submit" value="Login" />
+            <input
+                v-on:click="signup"
+                id="submit"
+                type="submit"
+                value="Login"
+            />
         </div>
     </div>
 </template>
 
 <script>
+import TextInput from "@/components/TextInput.vue";
 export default {
     name: "App",
-    components: {},
+    components: { TextInput },
     methods: {
         signup: async function() {
             console.log("Submitted");
-            const email = this.$refs.email_signup.value;
-            const password = this.$refs.password_signup.value;
-            const name = this.$refs.name_signup.value;
+            const email = this.$refs.email_signup.$refs.text.value;
+            const password = this.$refs.password_signup.$refs.text.value;
+            const name = this.$refs.name_signup.$refs.text.value;
             console.log(email, password, name);
 
             await this.signup_request(email, password, name);
@@ -110,3 +119,25 @@ export default {
     async created() {},
 };
 </script>
+<style scoped>
+.login {
+    display: inline-block;
+    width: 80%;
+}
+
+.input {
+    display: inline-block;
+    width: 100%;
+    max-width: 500px;
+}
+
+#submit {
+    margin-top: 15px;
+    font-size: 17px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 7px;
+    padding-left: 7px;
+    border: 1px solid black;
+}
+</style>
