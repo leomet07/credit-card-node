@@ -62,6 +62,7 @@ router.post("/create", async (req, res) => {
 });
 
 router.delete("/delete", async function (req, res) {
+    console.log("Deleting card")
     const query = req.body;
     if (query === {} || !query["_id"]) {
         return res.send({
@@ -86,6 +87,7 @@ router.delete("/delete", async function (req, res) {
                 message: err.message,
             });
         } else {
+
             return res.send({
                 deleted: true,
             });

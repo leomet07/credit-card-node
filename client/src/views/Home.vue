@@ -4,8 +4,13 @@
         <div v-if="$global.logged_in">
             <h1>You are logged in!</h1>
             <div id="global_cards">
-                <p v-for="cyclecard in cards" :key="cyclecard.name">
-                    <GlobalCard class="global_card" :name="cyclecard.name" />
+                <p v-for="cyclecard in cards" :key="cyclecard._id">
+                    <GlobalCard
+                        :ref="cyclecard._id"
+                        class="global_card"
+                        :id="cyclecard._id"
+                        :name="cyclecard.name"
+                    />
                 </p>
             </div>
 
@@ -98,6 +103,12 @@ export default {
                 this.cards = cards;
             }
             console.log("Done getting cards");
+        });
+
+        this.$root.$on("deleted_global_card", async (id) => {
+            console.log("Received a deltion of card:", id);
+            let i = this.cards.map((card) => card._id).indexOf(id); // find index of your object
+            this.cards.splice(i, 1); // remove it from array
         });
     },
 };
