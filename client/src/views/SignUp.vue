@@ -61,8 +61,9 @@ export default {
             await this.signup_request(email, password, name);
         },
         signup_request: async function(email, password, name) {
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
+            let myHeaders = {};
+            //myHeaders.append("Content-Type", "application/json");
+            myHeaders["Content-Type"] = "application/json";
 
             var raw = JSON.stringify({
                 email: email,

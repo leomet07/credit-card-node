@@ -116,8 +116,10 @@ export default {
 };
 
 async function get_cards(auth_token) {
-    var myHeaders = new Headers();
-    myHeaders.append("auth-token", auth_token);
+    //var myHeaders = new Headers();
+    let myHeaders = {};
+    //myHeaders.append("Content-Type", "application/json");
+    myHeaders["auth-token"] = auth_token;
 
     var requestOptions = {
         method: "GET",

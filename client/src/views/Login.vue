@@ -44,8 +44,10 @@ export default {
             await this.login_request(email, password);
         },
         login_request: async function(email, password) {
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
+            //var myHeaders = new Headers();
+            let myHeaders = {};
+            //myHeaders.append("Content-Type", "application/json");
+            myHeaders["Content-Type"] = "application/json";
 
             var raw = JSON.stringify({
                 email: email,
