@@ -18,7 +18,7 @@ export default {
 
             let response = null;
 
-            await fetch("http://127.0.0.1:3000/api/cards/delete", {
+            await fetch("http://192.168.7.36:3000/api/cards/delete", {
                 method: "DELETE",
                 headers: {
                     "content-type": "application/json",
@@ -75,5 +75,7 @@ button {
     padding-right: 7px;
     padding-left: 7px;
     border: 1px solid black;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 </style>

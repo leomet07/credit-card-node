@@ -79,7 +79,7 @@ async function verify_token(token) {
         valid: false,
     };
     await fetch(
-        "http://127.0.0.1:3000/api/user/verify/" + token,
+        "http://192.168.7.36:3000/api/user/verify/" + token,
         requestOptions
     )
         .then((response) => response.text())

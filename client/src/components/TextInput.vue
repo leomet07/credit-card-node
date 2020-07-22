@@ -76,6 +76,9 @@ export default {
     border-bottom: 3px solid #5fa8d3;
     transform: translateX(-100%);
     transition: all 0.3s ease;
+
+    /*For better fps in animation if available */
+    will-change: transform;
 }
 
 .content-name {

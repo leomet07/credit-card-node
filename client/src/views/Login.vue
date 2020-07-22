@@ -63,7 +63,7 @@ export default {
 
             try {
                 await fetch(
-                    "http://127.0.0.1:3000/api/user/login/",
+                    "http://192.168.7.36:3000/api/user/login/",
                     requestOptions
                 )
                     .then((response) => response.text())
@@ -86,7 +86,8 @@ export default {
                 console.log("AUTH TOKEN", this.$global.auth_token);
 
                 // Redirect to homepage
-                this.$router.push("/");
+                //this.$router.push("/"); wont call homepage created() func
+                window.location.replace("/");
             } else {
                 this.$global.logged_in = false;
                 this.$global.auth_token = "";
@@ -122,5 +123,7 @@ export default {
     padding-right: 7px;
     padding-left: 7px;
     border: 1px solid black;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 </style>

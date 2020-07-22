@@ -81,7 +81,7 @@ export default {
 
             try {
                 await fetch(
-                    "http://127.0.0.1:3000/api/user/register/",
+                    "http://192.168.7.36:3000/api/user/register/",
                     requestOptions
                 )
                     .then((response) => response.text())
@@ -139,5 +139,7 @@ export default {
     padding-right: 7px;
     padding-left: 7px;
     border: 1px solid black;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 </style>

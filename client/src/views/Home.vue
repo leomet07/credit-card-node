@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <h1>Credit Card Search</h1>
         <div v-if="$global.logged_in">
             <h1>You are logged in!</h1>
             <div id="global_cards">
@@ -68,7 +69,7 @@ export default {
                 };
                 let response = null;
                 await fetch(
-                    "http://127.0.0.1:3000/api/cards/create",
+                    "http://192.168.7.36:3000/api/cards/create",
                     requestOptions
                 )
                     .then((text) => text.text())
@@ -125,7 +126,7 @@ async function get_cards(auth_token) {
     };
 
     let cards = [];
-    await fetch("http://127.0.0.1:3000/api/cards/", requestOptions)
+    await fetch("http://192.168.7.36:3000/api/cards/", requestOptions)
         .then((response) => response.text())
         .then((result) => {
             cards = result;
@@ -142,7 +143,7 @@ async function get_cards(auth_token) {
 .input {
     display: inline-block;
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
     margin-bottom: 15px;
 }
 .button {
@@ -153,5 +154,7 @@ async function get_cards(auth_token) {
     padding-right: 7px;
     padding-left: 7px;
     border: 1px solid black;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 </style>
