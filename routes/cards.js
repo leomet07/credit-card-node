@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const verifyToken = require("./verifyToken");
 const Global_Card = require("../model/Global_Card");
-const {
-    cardValidation
-} = require("../validation");
+const { cardValidation } = require("../validation");
 
 // Cards data is only for authenitcated users
 router.use(verifyToken);
@@ -61,8 +59,39 @@ router.post("/create", async (req, res) => {
     }
 });
 
+router.put("/update", async function (req, res) {
+    const card_id = req.body["_id"];
+    if (!card_id) {
+        return res.send({
+            updated: false,
+            message: "Card ID not specified",
+        });
+    }
+    const change_to = req.body.update;
+    if (!change_to) {
+        return res.send({
+            updated: false,
+            message: "Updation value not specified",
+        });
+    }
+
+    // Remove change_to _id property to not change id
+    if (change_to && change_to["_id"]) {
+        delete change_to._id;
+    }
+
+    Global_Card.findByIdAndUpdate(card_id, change_to, function (err, old) {
+        let new_object = { ...old._doc, ...change_to };
+        console.log("Changed to: ", new_object);
+        return res.send({
+            updated: true,
+            changed_to: new_object,
+        });
+    });
+});
+
 router.delete("/delete", async function (req, res) {
-    console.log("Deleting card")
+    console.log("Deleting card");
     const query = req.body;
     if (query === {} || !query["_id"]) {
         return res.send({
@@ -87,7 +116,6 @@ router.delete("/delete", async function (req, res) {
                 message: err.message,
             });
         } else {
-
             return res.send({
                 deleted: true,
             });

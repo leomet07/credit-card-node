@@ -144,7 +144,7 @@ async function get_cards(auth_token) {
 }
 .input {
     display: inline-block;
-    width: 100%;
+    width: 80%;
     max-width: 400px;
     margin-bottom: 15px;
 }

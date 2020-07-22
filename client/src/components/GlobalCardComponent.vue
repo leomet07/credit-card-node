@@ -2,17 +2,69 @@
     <div id="card">
         <p>{{ name }}</p>
         <button v-on:click="delete_card">Delete me</button>
+        <form v-on:submit="update" class="form" ref="form">
+            <TextInput
+                type="text"
+                ref="name_update"
+                placeholder="Update Name"
+            />
+        </form>
     </div>
 </template>
 
 <script>
+import TextInput from "@/components/TextInput.vue";
 export default {
+    components: {
+        TextInput,
+    },
     name: "GlobalCard",
     props: {
         name: String,
         id: String,
     },
     methods: {
+        update: async function(e) {
+            e.preventDefault();
+            console.log("Updated");
+            console.log(this.$refs);
+            const new_name = this.$refs.name_update.$refs.text.value;
+            console.log({ new_name });
+
+            let response = await fetch(
+                "http://127.0.0.1:3000/api/cards/update",
+                {
+                    method: "PUT",
+                    headers: {
+                        "auth-token": this.$global.auth_token,
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        _id: this.id,
+                        update: {
+                            name: new_name,
+                        },
+                    }),
+                }
+            );
+            response = await response.json();
+            console.log(response);
+
+            let response_loop = JSON.parse(
+                JSON.stringify(response["changed_to"])
+            );
+            delete response_loop["_id"];
+            delete response_loop["__v"];
+            if (response.updated) {
+                let keys = Object.keys(response_loop);
+
+                for (let i = 0; i < keys.length; i++) {
+                    let key = keys[i];
+                    console.log("key: " + key);
+                    this[key] = response_loop[key];
+                }
+            }
+        },
         delete_card: async function() {
             console.log("Deleting card " + this.id);
 

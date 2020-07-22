@@ -2,9 +2,11 @@ const jwt = require("jsonwebtoken");
 const check_verify = require("./auth").check_verify;
 // Middleware for private routes
 module.exports = function (req, res, next) {
-    const token = req.header("auth-token");
+
+    let token = req.header("auth-token") || null;
+
     if (!token) {
-        return res.status(200).end({
+        res.send({
             denied: true,
             message: "Acess Denied!"
         });
@@ -17,7 +19,7 @@ module.exports = function (req, res, next) {
         next();
     } catch (err) {
 
-        res.status(200).end({
+        res.send({
             denied: true,
             message: "Invalid token -> Acess denied"
         });
