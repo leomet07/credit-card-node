@@ -118,7 +118,7 @@ router.get("/verify/:id", (req, res) => {
 
     try {
         const verified = check_verify(token);
-        console.log(verified)
+
         if (verified) {
             res.send({
                 valid: true,
