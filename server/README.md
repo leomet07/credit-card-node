@@ -1,4 +1,3 @@
-# node_credit_card
+# Backend
 
-A login system based on JSON web tokens.
-A credit card rate system.
+A Node Express that connects to my database to the frontend .
