@@ -1,12 +1,19 @@
 <template>
     <div id="card">
         <p>{{ name }}</p>
-        <button v-on:click="delete_card">Delete me</button>
-        <form v-on:submit="update" class="form" ref="form">
+        <button class="button" v-on:click="delete_card">Delete me</button>
+        <form class="form" ref="form">
             <TextInput
                 type="text"
                 ref="name_update"
                 placeholder="Update Name"
+            />
+            <input
+                class="button"
+                v-on:click="update"
+                id="submit"
+                type="submit"
+                value="Update"
             />
         </form>
     </div>
@@ -32,7 +39,7 @@ export default {
             console.log({ new_name });
 
             let response = await fetch(
-                "http://127.0.0.1:3000/api/cards/update",
+                "http://192.168.7.36:3000/api/cards/update",
                 {
                     method: "PUT",
                     headers: {
@@ -119,7 +126,7 @@ a {
     border: 1px solid black;
 }
 
-button {
+.button {
     margin-top: 15px;
     font-size: 13px;
     padding-top: 3px;
