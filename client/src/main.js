@@ -6,11 +6,16 @@ console.clear()
 
 Vue.config.productionTip = false
 
+const base_url = process.env.NODE_ENV == "development" ? 'http://192.168.7.36:3000' : 'https://creditcardbackend.herokuapp.com'
+console.log("BASE_URL " + base_url)
 const shared = {
     message: "my global message",
     logged_in: false,
-    checked_token: false
+    checked_token: false,
+    BASE_URL: base_url
 }
+
+window.BASE_URL = base_url
 
 shared.install = function () {
     Object.defineProperty(Vue.prototype, '$global', {
@@ -19,6 +24,7 @@ shared.install = function () {
         }
     })
 }
+
 Vue.use(shared);
 
 

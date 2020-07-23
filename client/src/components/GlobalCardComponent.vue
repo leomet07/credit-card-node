@@ -38,22 +38,19 @@ export default {
             const new_name = this.$refs.name_update.$refs.text.value;
             console.log({ new_name });
 
-            let response = await fetch(
-                "http://192.168.7.36:3000/api/cards/update",
-                {
-                    method: "PUT",
-                    headers: {
-                        "auth-token": this.$global.auth_token,
-                        "content-type": "application/json",
+            let response = await fetch(window.BASE_URL + "/api/cards/update", {
+                method: "PUT",
+                headers: {
+                    "auth-token": this.$global.auth_token,
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    _id: this.id,
+                    update: {
+                        name: new_name,
                     },
-                    body: JSON.stringify({
-                        _id: this.id,
-                        update: {
-                            name: new_name,
-                        },
-                    }),
-                }
-            );
+                }),
+            });
             response = await response.json();
             console.log(response);
 
@@ -77,12 +74,11 @@ export default {
 
             let response = null;
 
-            await fetch("http://192.168.7.36:3000/api/cards/delete", {
+            await fetch(window.BASE_URL + "/api/cards/delete", {
                 method: "DELETE",
                 headers: {
                     "content-type": "application/json",
-                    "auth-token":
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjEzMWU0YWU0ZGE0MDM4YTA0YTBkZWQiLCJpYXQiOjE1OTUwODg0NTh9.ye1NFmAYO25ryH4E8rjyV5MOnMDhBJ79r7bMi8l5ueE",
+                    "auth-token": this.$global.auth_token,
                 },
                 body: JSON.stringify({
                     _id: this.id,

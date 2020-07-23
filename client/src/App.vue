@@ -45,6 +45,7 @@ export default {
         return {};
     },
     async created() {
+        console.log(process.env);
         // console.log("App created");
         // console.log("My global in app: ", this.$global.message);
         let auth_token = window.localStorage.getItem("auth-token");
@@ -78,10 +79,7 @@ async function verify_token(token) {
     let r = {
         valid: false,
     };
-    await fetch(
-        "http://192.168.7.36:3000/api/user/verify/" + token,
-        requestOptions
-    )
+    await fetch(window.BASE_URL + "/api/user/verify/" + token, requestOptions)
         .then((response) => response.text())
         .then((result) => {
             r = JSON.parse(result);

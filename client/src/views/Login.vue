@@ -65,7 +65,7 @@ export default {
 
             try {
                 await fetch(
-                    "http://192.168.7.36:3000/api/user/login/",
+                    window.BASE_URL + "/api/user/login/",
                     requestOptions
                 )
                     .then((response) => response.text())

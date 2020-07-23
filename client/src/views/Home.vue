@@ -69,7 +69,7 @@ export default {
                 };
                 let response = null;
                 await fetch(
-                    "http://192.168.7.36:3000/api/cards/create",
+                    window.BASE_URL + "/api/cards/create",
                     requestOptions
                 )
                     .then((text) => text.text())
@@ -128,7 +128,7 @@ async function get_cards(auth_token) {
     };
 
     let cards = [];
-    await fetch("http://192.168.7.36:3000/api/cards/", requestOptions)
+    await fetch(window.BASE_URL + "/api/cards/", requestOptions)
         .then((response) => response.text())
         .then((result) => {
             cards = result;

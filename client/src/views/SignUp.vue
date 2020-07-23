@@ -82,7 +82,7 @@ export default {
 
             try {
                 await fetch(
-                    "http://192.168.7.36:3000/api/user/register/",
+                    window.BASE_URL + "/api/user/register/",
                     requestOptions
                 )
                     .then((response) => response.text())
