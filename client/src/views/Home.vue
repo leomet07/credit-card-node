@@ -3,15 +3,18 @@
         <h1>Credit Card Search</h1>
         <div v-if="$global.logged_in">
             <h1>You are logged in!</h1>
+
             <div id="global_cards">
-                <p v-for="cyclecard in cards" :key="cyclecard._id">
-                    <GlobalCard
-                        :ref="cyclecard._id"
-                        class="global_card"
-                        :id="cyclecard._id"
-                        :name="cyclecard.name"
-                    />
-                </p>
+                <h2>Card types</h2>
+
+                <GlobalCard
+                    :ref="cyclecard._id"
+                    class="global_card"
+                    :id="cyclecard._id"
+                    :name="cyclecard.name"
+                    v-for="cyclecard in cards"
+                    :key="cyclecard._id"
+                />
             </div>
 
             <br />
@@ -140,7 +143,18 @@ async function get_cards(auth_token) {
 </script>
 <style scoped>
 #global_cards {
+    width: 400px;
+    /* border: 1px solid red; */
+    border: 1px solid black;
     display: inline-block;
+    padding: auto;
+}
+.global_card {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+
 }
 .input {
     display: inline-block;
