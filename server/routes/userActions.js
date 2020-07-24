@@ -17,10 +17,22 @@ router.get("/getCards", async function (req, res) {
 	const cards = user.cards;
 
 
-	for (card of cards) {
+	for (let i = 0; i < cards.length; i++) {
+		let card = cards[i]
 		const global_id = card.global_card_id;
+		const global_card = (await Global_Card.findById(global_id)).toObject();
+		delete global_card["_id"]
+		delete card["_id"]
+		delete global_card["__v"]
 
-		console.log(global_id)
+		card = {
+
+			...global_card,
+			...card
+		}
+
+		cards[i] = card
+
 	}
 	res.send(cards)
 
