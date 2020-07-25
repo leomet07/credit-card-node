@@ -9,10 +9,12 @@ router.get("/", function (req, res) {
 		message: "Hello from user action"
 	});
 });
-router.get("/getCards", async function (req, res) {
+router.post("/getCards", async function (req, res) {
 	const _id = req.body._id;
 
-	const user = (await User.findById(_id)).toObject();
+	let user = (await User.findById(_id))
+
+	user = user.toObject();
 
 	const cards = user.cards;
 

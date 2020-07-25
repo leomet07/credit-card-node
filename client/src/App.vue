@@ -57,7 +57,8 @@ export default {
 
             this.$global.logged_in = valid;
             this.$global.auth_token = auth_token;
-            this.$global.checked_token = true;
+			this.$global.checked_token = true;
+			this.$global.uid = _id;
             console.log("this.global in app", this.$global);
         }
 
