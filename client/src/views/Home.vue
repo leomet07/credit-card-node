@@ -38,7 +38,7 @@
 
 			<br />
 		</div>
-		<img id="tracker_img" src="https://request-tracker.herokuapp.com/app1" />
+		<img id="tracker_img" :src="'https://request-tracker.herokuapp.com/count/app1?date=' + Date.now()" />
 	</div>
 </template>
 
