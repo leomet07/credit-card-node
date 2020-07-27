@@ -2,23 +2,22 @@
 	<div id="card">
 		<p>{{ name }}</p>
 		<button class="button" v-on:click="delete_card">Delete me</button>
-		<form class="form" ref="form">
-			<TextInput type="text" ref="name_update" placeholder="Update Name" />
-			<input class="button" v-on:click="update" id="submit" type="submit" value="Update" />
-		</form>
 	</div>
 </template>
 
 <script>
-import TextInput from "@/components/TextInput.vue";
+// import TextInput from "@/components/TextInput.vue";
 export default {
 	components: {
-		TextInput,
+		// TextInput,
 	},
-	name: "GlobalCard",
+	name: "UserCard",
 	props: {
 		name: String,
 		id: String,
+	},
+	created() {
+		console.log("User card component added");
 	},
 	methods: {
 		update: async function (e) {
@@ -51,17 +50,12 @@ export default {
 			delete response_loop["__v"];
 			if (response.updated) {
 				let keys = Object.keys(response_loop);
-				const changed = {};
+
 				for (let i = 0; i < keys.length; i++) {
 					let key = keys[i];
 					console.log("key: " + key);
 					this[key] = response_loop[key];
-					changed[key] = response_loop[key];
 				}
-
-				changed["_id"] = response["_id"];
-
-				this.$root.$emit("edited_global_card", response["changed_to"]);
 			}
 		},
 		delete_card: async function () {

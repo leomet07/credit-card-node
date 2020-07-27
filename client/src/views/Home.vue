@@ -34,22 +34,35 @@
 			<br />
 			<div id="user_cards">
 				<h2>User cards</h2>
+
+				<UserCard
+					:ref="'usercard' + usercard.global_card_id"
+					class="user_card"
+					:id="usercard._id"
+					:name="usercard.name"
+					v-for="usercard in user_cards"
+					:key="usercard._id"
+				/>
 			</div>
 
 			<br />
 		</div>
-		<img id="tracker_img" :src="'https://request-tracker.herokuapp.com/count/app1?date=' + Date.now()" />
+		<img
+			id="tracker_img"
+			:src="'https://request-tracker.herokuapp.com/count/app1?date=' + Date.now()"
+		/>
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
 import GlobalCard from "@/components/GlobalCardComponent.vue";
+import UserCard from "@/components/UserCardComponent.vue";
 import TextInput from "@/components/TextInput.vue";
 
 export default {
 	name: "Home",
-	components: { GlobalCard, TextInput },
+	components: { GlobalCard, UserCard, TextInput },
 	methods: {
 		create_global_card: async function (e) {
 			e.preventDefault();
@@ -93,6 +106,7 @@ export default {
 	data() {
 		return {
 			global_cards: [],
+			user_cards: [],
 		};
 	},
 	async created() {
@@ -112,6 +126,7 @@ export default {
 					auth_token,
 					this.$global.uid
 				);
+				this.user_cards = user_cards;
 				console.log({ user_cards });
 			}
 			console.log("Done getting cards");
@@ -121,6 +136,17 @@ export default {
 			console.log("Received a deltion of card:", id);
 			let i = this.global_cards.map((card) => card._id).indexOf(id); // find index of your object
 			this.global_cards.splice(i, 1); // remove it from array
+		});
+
+		this.$root.$on("edited_global_card", async (data) => {
+			console.log("EDITED GLOBAL CARD RECIEVED: ", data);
+			let keys = Object.keys(data);
+
+			for (let i = 0; i < keys.length; i++) {
+				let key = keys[i];
+				console.log("print name: " + key);
+				this.$refs["usercard" + data._id][0][key] = data[key];
+			}
 		});
 	},
 };
@@ -199,6 +225,12 @@ async function get_user_cards(auth_token, uid) {
 	margin-top: 20px;
 }
 .global_card {
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+}
+.user_card {
 	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
