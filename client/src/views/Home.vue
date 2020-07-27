@@ -98,7 +98,7 @@ export default {
 					// Not created due to bad card details in request
 					alert(response.message);
 				} else {
-					this.cards.push(response.card);
+					this.global_cards.push(response.card);
 				}
 			}
 		},
@@ -126,8 +126,13 @@ export default {
 					auth_token,
 					this.$global.uid
 				);
-				this.user_cards = user_cards;
-				console.log({ user_cards });
+				if (user_cards.error) {
+					const message = user_cards.message;
+					alert(message);
+				} else {
+					this.user_cards = user_cards;
+					console.log({ user_cards });
+				}
 			}
 			console.log("Done getting cards");
 		});

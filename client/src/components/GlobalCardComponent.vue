@@ -6,6 +6,7 @@
 			<TextInput type="text" ref="name_update" placeholder="Update Name" />
 			<input class="button" v-on:click="update" id="submit" type="submit" value="Update" />
 		</form>
+		<button class="button" v-on:click="addUnderUser">Add Under User</button>
 	</div>
 </template>
 
@@ -21,6 +22,28 @@ export default {
 		id: String,
 	},
 	methods: {
+		addUnderUser: async function () {
+			let response = await fetch(
+				"http://127.0.0.1:3000/api/user/action/createCard",
+				{
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify({
+						user_query: {
+							_id: this.$global.uid,
+						},
+						data: {
+							global_card_id: this.id,
+						},
+					}),
+				}
+			);
+			response = await response.json();
+
+			console.log(response);
+		},
 		update: async function (e) {
 			e.preventDefault();
 			console.log("Updated");

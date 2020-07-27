@@ -22,7 +22,14 @@ router.post("/getCards", async function (req, res) {
 	for (let i = 0; i < cards.length; i++) {
 		let card = cards[i]
 		const global_id = card.global_card_id;
-		const global_card = (await Global_Card.findById(global_id)).toObject();
+		let global_card = await Global_Card.findById(global_id)
+		if (!global_card) {
+			res.send({
+				error: true,
+				message: "user with that ID doesnt exist"
+			})
+		}
+		global_card = global_card.toObject();
 		delete global_card["_id"]
 
 		delete global_card["__v"]
