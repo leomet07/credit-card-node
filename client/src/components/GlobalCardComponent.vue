@@ -24,7 +24,7 @@ export default {
 	methods: {
 		addUnderUser: async function () {
 			let response = await fetch(
-				"http://127.0.0.1:3000/api/user/action/createCard",
+				"http://192.168.7.36:3000/api/user/action/createCard",
 				{
 					method: "POST",
 					headers: {

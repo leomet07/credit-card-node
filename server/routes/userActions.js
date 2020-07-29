@@ -6,29 +6,20 @@ const {
 	query
 } = require("express");
 
-router.get("/", function (req, res) {
-	res.send({
-		message: "Hello from user action",
-	});
-});
-router.post("/getCards", async function (req, res) {
-	const _id = req.body._id;
-	console.log("_id", _id);
-	let user = await User.findById(_id);
 
-	user = user.toObject();
-
+async function get_cards(user) {
 	const cards = user.cards;
 
 	for (let i = 0; i < cards.length; i++) {
 		let card = cards[i];
 		const global_id = card.global_card_id;
 		let global_card = await Global_Card.findById(global_id);
+
 		if (!global_card) {
-			return res.send({
+			return {
 				error: true,
 				message: "(USER CARDS: ): global card with that ID doesnt exist",
-			});
+			}
 		}
 		global_card = global_card.toObject();
 		delete global_card["_id"];
@@ -42,6 +33,25 @@ router.post("/getCards", async function (req, res) {
 
 		cards[i] = card;
 	}
+	// console.log('before return', cards)
+	return cards;
+}
+
+router.get("/", function (req, res) {
+	res.send({
+		message: "Hello from user action",
+	});
+});
+router.post("/getCards", async function (req, res) {
+	const _id = req.body._id;
+	// console.log("_id", _id);
+	let user = await User.findById(_id);
+
+	user = user.toObject();
+
+	let cards = await get_cards(user);
+	// console.log('after return: ', cards)
+
 	res.send(cards);
 });
 router.post("/createCard", async function (req, res) {
@@ -99,34 +109,38 @@ router.post("/createCard", async function (req, res) {
 		});
 	}
 
-	const schema_str = data_schemized.toObject();
+	const schema_obj = data_schemized.toObject();
 
 	if (data.cards) {
-		data.cards.push(schema_str);
+		data.cards.push(schema_obj);
 	} else {
-		data.cards = [schema_str];
+		data.cards = [schema_obj];
 	}
 
 	try {
-		User.findOneAndUpdate(
+		// find and update
+		let user = await User.findOneAndUpdate(
 			user_query, {
 				cards: data.cards,
 			}, {
 				upsert: false,
-			},
-			function (err, doc) {
-				if (err) {
-					return res.send(200, {
-						appended: false,
-						error: err,
-					});
-				}
-
-				return res.send({
-					created: true,
-				});
 			}
 		);
+		// find with changes
+		user = await User.findOne(user_query)
+
+		user = user.toObject()
+		// console.log("user: ", user)
+		// Get all cards from db
+		const db_cards = await get_cards(user);
+		// console.log("db_cards: ", db_cards)
+		return res.send({
+			created: true,
+			cards: db_cards
+		})
+
+
+
 	} catch (err) {
 		return res.send(200, {
 			appended: false,
@@ -156,12 +170,12 @@ router.delete("/deleteCard", async function (req, res) {
 	}, function (err) {
 		if (err) {
 			return res.send({
-				updated: false,
+				deleted: false,
 				message: err.message
 			})
 		}
 		return res.send({
-			updated: true,
+			deleted: true,
 
 		})
 	})

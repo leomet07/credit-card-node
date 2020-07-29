@@ -49,6 +49,7 @@
 
 			<br />
 		</div>
+		<!-- 
 		<img
 			id="tracker_img"
 			:src="
@@ -56,6 +57,8 @@
 					Date.now()
 			"
 		/>
+
+		-->
 	</div>
 </template>
 
@@ -164,10 +167,10 @@ export default {
 			}
 		});
 
-		this.$root.$on("CardAddUnderUser", function (data) {
-			const card = data.card;
+		this.$root.$on("CardAddUnderUser", (data) => {
+			console.log("CardAddUnderUser recieved");
 
-			this.user_cards.push(card);
+			this.user_cards = data.cards;
 		});
 	},
 };

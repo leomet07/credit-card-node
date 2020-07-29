@@ -21,19 +21,19 @@ export default {
 	},
 	methods: {
 		delete_card: async function () {
-			/*
 			console.log("Deleting card: " + this.card_id);
 
 			let response = null;
 
-			await fetch(window.BASE_URL + "/api/cards/delete", {
+			await fetch(window.BASE_URL + "/api/user/action/deleteCard", {
 				method: "DELETE",
 				headers: {
 					"content-type": "application/json",
 					"auth-token": this.$global.auth_token,
 				},
 				body: JSON.stringify({
-					_id: this.card_id,
+					userid: this.$global.uid,
+					global_card_id: this.card_id,
 				}),
 			})
 				.then((text) => text.text())
@@ -42,11 +42,10 @@ export default {
 					console.log("Result: ", response);
 				});
 
-			if (response && response.deleted) {
-				console.log("Deleted sucessfully!");
-				this.$root.$emit("deleted_global_card", this.card_id);
-			}
-			*/
+			// if (response && response.deleted) {
+			// 	console.log("Deleted sucessfully!");
+			// 	this.$root.$emit("deleted_global_card", this.card_id);
+			// }
 		},
 	},
 };
