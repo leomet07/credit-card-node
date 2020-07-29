@@ -34,22 +34,27 @@
 			<br />
 			<div id="user_cards">
 				<h2>User cards</h2>
-
-				<UserCard
-					:ref="'usercard' + usercard.global_card_id"
-					class="user_card"
-					:id="usercard._id"
-					:name="usercard.name"
-					v-for="usercard in user_cards"
-					:key="usercard._id"
-				/>
+				<div id="user_cards_display" v-if="user_cards.length > 0">
+					<UserCard
+						:ref="'usercard' + usercard.global_card_id"
+						class="user_card"
+						:card_id="usercard.global_card_id"
+						:name="usercard.name"
+						v-for="usercard in user_cards"
+						:key="usercard._id"
+					/>
+				</div>
+				<h4 v-else>No Cards on your account yet!</h4>
 			</div>
 
 			<br />
 		</div>
 		<img
 			id="tracker_img"
-			:src="'https://request-tracker.herokuapp.com/count/app1?date=' + Date.now()"
+			:src="
+				'https://request-tracker.herokuapp.com/count/app1?date=' +
+					Date.now()
+			"
 		/>
 	</div>
 </template>
@@ -141,6 +146,11 @@ export default {
 			console.log("Received a deltion of card:", id);
 			let i = this.global_cards.map((card) => card._id).indexOf(id); // find index of your object
 			this.global_cards.splice(i, 1); // remove it from array
+
+			let u = this.user_cards
+				.map((card) => card.global_card_id)
+				.indexOf(id); // find index of user card
+			this.user_cards.splice(u, 1); // remove it from array
 		});
 
 		this.$root.$on("edited_global_card", async (data) => {
@@ -152,6 +162,12 @@ export default {
 				console.log("print name: " + key);
 				this.$refs["usercard" + data._id][0][key] = data[key];
 			}
+		});
+
+		this.$root.$on("CardAddUnderUser", function (data) {
+			const card = data.card;
+
+			this.user_cards.push(card);
 		});
 	},
 };

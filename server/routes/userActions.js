@@ -2,6 +2,9 @@ const router = require("express").Router();
 const User = require("../model/User");
 const User_Card = require("../model/User_Card");
 const Global_Card = require("../model/Global_Card");
+const {
+	query
+} = require("express");
 
 router.get("/", function (req, res) {
 	res.send({
@@ -24,8 +27,7 @@ router.post("/getCards", async function (req, res) {
 		if (!global_card) {
 			return res.send({
 				error: true,
-				message:
-					"(USER CARDS: ): global card with that ID doesnt exist",
+				message: "(USER CARDS: ): global card with that ID doesnt exist",
 			});
 		}
 		global_card = global_card.toObject();
@@ -107,11 +109,9 @@ router.post("/createCard", async function (req, res) {
 
 	try {
 		User.findOneAndUpdate(
-			user_query,
-			{
+			user_query, {
 				cards: data.cards,
-			},
-			{
+			}, {
 				upsert: false,
 			},
 			function (err, doc) {
@@ -133,6 +133,39 @@ router.post("/createCard", async function (req, res) {
 			error: err,
 		});
 	}
+});
+
+
+router.delete("/deleteCard", async function (req, res) {
+	/*
+	let user = await User.findOne(req.body.userid);
+
+	user = user.toObject();
+
+	const cards = user.cards.filter((card) => card.global_card_id !== req.body.global_card_id);
+
+	console.log('New cards: ', cards)
+	*/
+
+	User.findByIdAndUpdate(req.body.userid, {
+		$pull: {
+			"cards": {
+				global_card_id: req.body.global_card_id
+			}
+		}
+	}, function (err) {
+		if (err) {
+			return res.send({
+				updated: false,
+				message: err.message
+			})
+		}
+		return res.send({
+			updated: true,
+
+		})
+	})
+
 });
 
 module.exports = {

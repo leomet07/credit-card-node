@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const verifyToken = require("./verifyToken");
 const Global_Card = require("../model/Global_Card");
-const {
-	cardValidation
-} = require("../validation");
+const { cardValidation } = require("../validation");
 const UsercardModel = require("../model/User_Card");
 const User = require("../model/User");
 
@@ -87,7 +85,7 @@ router.put("/update", async function (req, res) {
 	Global_Card.findByIdAndUpdate(card_id, change_to, function (err, old) {
 		let new_object = {
 			...old._doc,
-			...change_to
+			...change_to,
 		};
 		console.log("Changed to: ", new_object);
 		return res.send({
@@ -115,32 +113,39 @@ router.delete("/delete", async function (req, res) {
 			message: "Card with that ID doesnt exist.",
 		});
 	}
+	try {
+		await Global_Card.findByIdAndDelete(query["_id"]);
+		const users_with_card = await User.find({
+			cards: {
+				$elemMatch: {
+					global_card_id: query["_id"],
+				},
+			},
+		});
 
-	await Global_Card.findByIdAndDelete(query["_id"]);
-	const users_with_card = await User.find({
-		cards: {
-			$elemMatch: {
-				global_card_id: query['_id']
-			}
+		for (user_with_card of users_with_card) {
+			user_with_card = user_with_card.toObject();
+			const cards = user_with_card["cards"].filter(
+				(card) => card.global_card_id !== query["_id"]
+			);
+			const changed_user = await User.findByIdAndUpdate(
+				user_with_card._id,
+				{
+					cards: cards,
+				}
+			);
 		}
-	})
+		console.log("Users with card!", users_with_card);
 
-	for (user_with_card of users_with_card) {
-		user_with_card = user_with_card.toObject();
-		const cards = (user_with_card['cards']).filter(card => card.global_card_id !== query['_id'])
-		const changed_user = await User.findByIdAndUpdate(user_with_card._id, {
-			cards: cards
-		})
+		return res.send({
+			deleted: true,
+		});
+	} catch (err) {
+		return res.send({
+			deleted: false,
+			message: err.message,
+		});
 	}
-
-	console.log('Users with card!', users_with_card);
-
-
-	return res.send({
-		deleted: true,
-	});
-
-
 });
 
 module.exports.router = router;

@@ -43,6 +43,9 @@ export default {
 			response = await response.json();
 
 			console.log(response);
+			if (response.created) {
+				this.$root.$emit("CardAddUnderUser", response);
+			}
 		},
 		update: async function (e) {
 			e.preventDefault();
