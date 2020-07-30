@@ -42,7 +42,9 @@ router.post("/getCards", async function (req, res) {
 	const _id = req.body._id;
 	// console.log("_id", _id);
 	let user = await User.findById(_id);
-
+	if (!user) {
+		res.send("user doesnt exist")
+	}
 	user = user.toObject();
 
 	let cards = await get_cards(user);
