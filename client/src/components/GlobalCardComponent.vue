@@ -70,12 +70,12 @@ export default {
 			response = await response.json();
 			console.log(response);
 
-			let response_loop = JSON.parse(
-				JSON.stringify(response["changed_to"])
-			);
-			delete response_loop["_id"];
-			delete response_loop["__v"];
 			if (response.updated) {
+				let response_loop = JSON.parse(
+					JSON.stringify(response["changed_to"])
+				);
+				delete response_loop["_id"];
+				delete response_loop["__v"];
 				let keys = Object.keys(response_loop);
 				const changed = {};
 				for (let i = 0; i < keys.length; i++) {
@@ -88,6 +88,8 @@ export default {
 				changed["_id"] = response["_id"];
 
 				this.$root.$emit("edited_global_card", response["changed_to"]);
+			} else {
+				alert(response.message);
 			}
 		},
 		delete_card: async function () {

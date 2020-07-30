@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const verifyToken = require("./verifyToken");
 const Global_Card = require("../model/Global_Card");
-const { cardValidation } = require("../validation");
+const {
+	cardValidation
+} = require("../validation");
 const UsercardModel = require("../model/User_Card");
 const User = require("../model/User");
 
@@ -62,6 +64,18 @@ router.post("/create", async (req, res) => {
 });
 
 router.put("/update", async function (req, res) {
+	const validation = cardValidation(req.body.update);
+	if ("error" in validation) {
+		return res.status(200).end(
+			JSON.stringify({
+				message: validation.error.details[0].message,
+				updated: false,
+			})
+		);
+	}
+
+
+
 	const card_id = req.body["_id"];
 	if (!card_id) {
 		return res.send({
@@ -129,8 +143,7 @@ router.delete("/delete", async function (req, res) {
 				(card) => card.global_card_id !== query["_id"]
 			);
 			const changed_user = await User.findByIdAndUpdate(
-				user_with_card._id,
-				{
+				user_with_card._id, {
 					cards: cards,
 				}
 			);
