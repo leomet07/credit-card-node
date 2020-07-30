@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div id="card">
-			<p>{{ name }}</p>
+			<p>{{ name_data }}</p>
 			<button class="button" v-on:click="delete_card">Delete me</button>
 		</div>
 	</div>
@@ -18,12 +18,18 @@ export default {
 		name: String,
 		card_id: String,
 	},
+	data() {
+		return {
+			name_data: this.name,
+			card_id_data: this.card_id,
+		};
+	},
 	created() {
 		console.log("User card component added");
 	},
 	methods: {
 		delete_card: async function () {
-			console.log("Deleting card: " + this.card_id);
+			console.log("Deleting card: " + this.card_id_data);
 
 			let response = await fetch(
 				window.BASE_URL + "/api/user/action/deleteCard",
@@ -35,7 +41,7 @@ export default {
 					},
 					body: JSON.stringify({
 						userid: this.$global.uid,
-						global_card_id: this.card_id,
+						global_card_id: this.card_id_data,
 					}),
 				}
 			);
@@ -43,7 +49,7 @@ export default {
 
 			if (response && response.deleted) {
 				console.log("Deleted sucessfully!", response);
-				this.$root.$emit("deleted_user_card", this.card_id);
+				this.$root.$emit("deleted_user_card", this.card_id_data);
 			}
 		},
 	},

@@ -167,11 +167,14 @@ export default {
 			this.global_cards.splice(u, 1, data);
 
 			let keys = Object.keys(data);
+			console.log("editing loop keys", keys);
+			keys.splice(keys.indexOf("_id"), 1);
+			keys.splice(keys.indexOf("__v"), 1);
 
 			for (let i = 0; i < keys.length; i++) {
 				let key = keys[i];
-				console.log("print name: " + key);
-				this.$refs["usercard" + data._id][0][key] = data[key];
+
+				this.$refs["usercard" + data._id][0][key + "_data"] = data[key];
 			}
 		});
 
@@ -247,7 +250,7 @@ async function get_user_cards(auth_token, uid) {
 </script>
 <style scoped>
 #global_cards {
-	width: 900px;
+	width: 400px;
 	/* border: 1px solid red; */
 	border: 1px solid black;
 	display: inline-block;

@@ -1,5 +1,5 @@
 <template>
-	<div id="card">
+	<div id="card_display">
 		<div class="Wrap">
 			<div class="Base">
 				<div class="Inner-wrap">
@@ -170,10 +170,10 @@
 					</svg>
 					<div class="Card-number">
 						<ul>
-							<li id="first-li">4351</li>
-							<li>8237</li>
-							<li>2189</li>
-							<li id="last-li">0104</li>
+							<li id="first-li">0000</li>
+							<li>0000</li>
+							<li>0000</li>
+							<li id="last-li">0000</li>
 						</ul>
 					</div>
 
@@ -183,7 +183,7 @@
 					</div>
 
 					<div class="Name">
-						<h3>Jordan Luca Schlansky</h3>
+						<h3>First Last</h3>
 					</div>
 
 					<!--       Visa Logo SVG -->
@@ -289,7 +289,7 @@ export default {
 
 /* https://codepen.io/maiterosalie/pen/ppRRLV?q=gold+gradient&limit=all&type=type-pens */
 
-#card {
+#card_display {
 	font-family: "Roboto", sans-serif;
 	font-weight: 400;
 }
@@ -302,8 +302,8 @@ export default {
 
 .Base {
 	background: #ccc;
-	height: 378px;
-	width: 595px;
+	height: 190px;
+	width: 300px;
 	border-radius: 15px;
 }
 
@@ -315,23 +315,23 @@ export default {
 	position: relative;
 	height: 100%;
 	width: 100%;
-	border-radius: 13px;
-	padding: 20px 40px;
+	border-radius: 7px;
+	padding: 10px 20px;
 	box-sizing: border-box;
 	color: #fff;
 }
 
 p {
 	margin: 0;
-	font-size: 2em;
+	font-size: 1em;
 }
 
 /* Controls top right logo */
 
 .Logo {
 	position: absolute;
-	height: 80px;
-	width: 80px;
+	height: 40px;
+	width: 40px;
 	right: 0;
 	top: 0;
 	padding: inherit;
@@ -341,8 +341,8 @@ p {
 /* Controls chip icon */
 
 .Chip {
-	height: 80px;
-	margin: 40px 0 25px 0;
+	height: 30px;
+	margin: 0px 0 12px 0;
 }
 
 .gold path {
@@ -356,8 +356,9 @@ svg {
 /* Controls name size */
 
 .Logo-name {
-	transform: scale(0.5);
-	margin-left: -75px;
+	transform: scale(0.25);
+	margin-left: -113px;
+	margin-top: -10px;
 }
 
 .Card-number p {
@@ -365,7 +366,7 @@ svg {
 }
 
 .Card-number {
-	margin-top: -25px;
+	margin-top: -12px;
 	display: flex;
 	justify-content: center;
 	color: rgba(255, 255, 255, 0.9);
@@ -378,8 +379,8 @@ ul {
 ul li {
 	list-style: none;
 	float: left;
-	margin: 0px 10px;
-	font-size: 2.2em;
+	margin: 0px 5px;
+	font-size: 1.1em;
 }
 
 #first-li {
@@ -391,7 +392,7 @@ ul li {
 }
 
 .Expire {
-	font-size: 0.75em;
+	font-size: 0.5em;
 	text-align: center;
 }
 
@@ -399,29 +400,30 @@ ul li {
 	font-weight: 400;
 	color: #aaa;
 	margin: 0;
+
 	/*   word-spacing: 9999999px; */
 	text-transform: uppercase;
 }
 
 .Expire p {
-	font-size: 1.55em;
+	font-size: 0.5em;
 	color: rgba(255, 255, 255, 0.9);
 }
 
 .Name h3 {
 	position: absolute;
 	bottom: 0;
-	left: 18%;
+	left: 9%;
 	text-transform: uppercase;
 	font-weight: 400;
-	font-size: 1.35em;
+	font-size: 0.65em;
 	color: rgba(255, 255, 255, 0.85);
 }
 
 .Visa {
-	width: 115px;
+	width: 57px;
 	position: absolute;
-	bottom: -145px;
+	bottom: -150px;
 	right: 0;
 	padding: inherit;
 }

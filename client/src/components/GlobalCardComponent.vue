@@ -2,6 +2,7 @@
 	<div>
 		<div id="card" v-if="render_draw">
 			<p ref="name">{{ name }}</p>
+			<CardDisplay></CardDisplay>
 			<button class="button" v-on:click="delete_card">Delete me</button>
 			<form class="form" ref="form">
 				<TextInput type="text" ref="name_update" placeholder="Update Name" />
@@ -9,9 +10,7 @@
 			</form>
 			<button class="button" v-on:click="addUnderUser">Add Under User</button>
 		</div>
-		<div>
-			<CardDisplay></CardDisplay>
-		</div>
+		<div></div>
 	</div>
 </template>
 
