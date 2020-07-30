@@ -1,6 +1,6 @@
 <template>
-	<div id="card">
-		<p>{{ name }}</p>
+	<div id="card" v-if="render_draw">
+		<p ref="name">{{ name }}</p>
 		<button class="button" v-on:click="delete_card">Delete me</button>
 		<form class="form" ref="form">
 			<TextInput type="text" ref="name_update" placeholder="Update Name" />
@@ -19,7 +19,12 @@ export default {
 	name: "GlobalCard",
 	props: {
 		name: String,
-		id: String,
+		card_id: String,
+	},
+	data() {
+		return {
+			render_draw: true,
+		};
 	},
 	methods: {
 		addUnderUser: async function () {
@@ -35,7 +40,7 @@ export default {
 							_id: this.$global.uid,
 						},
 						data: {
-							global_card_id: this.id,
+							global_card_id: this.card_id,
 						},
 					}),
 				}
@@ -44,7 +49,20 @@ export default {
 
 			console.log(response);
 			if (response.created) {
+				// console.log(this.name);
+				// let old_card = { ...this.card };
 				this.$root.$emit("CardAddUnderUser", response);
+				// console.log("AGAIN" + this.name);
+				// // Remove my-component from the DOM
+				// this.render_draw = false;
+
+				// this.$nextTick(() => {
+				// 	this.name = old_card.name;
+				// 	this.render_draw = true;
+				// 	console.log("AGAIN2" + this.name, "old state", old_card);
+				// });
+
+				// // Prevent from taking old name
 			}
 		},
 		update: async function (e) {
@@ -61,7 +79,7 @@ export default {
 					"content-type": "application/json",
 				},
 				body: JSON.stringify({
-					_id: this.id,
+					_id: this.card_id,
 					update: {
 						name: new_name,
 					},
@@ -93,7 +111,7 @@ export default {
 			}
 		},
 		delete_card: async function () {
-			console.log("Deleting card " + this.id);
+			console.log("Deleting card " + this.card_id);
 
 			let response = null;
 
@@ -104,7 +122,7 @@ export default {
 					"auth-token": this.$global.auth_token,
 				},
 				body: JSON.stringify({
-					_id: this.id,
+					_id: this.card_id,
 				}),
 			})
 				.then((text) => text.text())

@@ -8,12 +8,12 @@
 				<h2>Card types</h2>
 				<div id="global_cards_display" v-if="global_cards.length > 0">
 					<GlobalCard
-						:ref="cyclecard._id"
+						:ref="'global_card' + cyclecard._id"
 						class="global_card"
-						:id="cyclecard._id"
-						:name="cyclecard.name"
+						:card_id="cyclecard._id"
+						:name=" cyclecard.name"
 						v-for="cyclecard in global_cards"
-						:key="cyclecard._id"
+						:key="'global_card' +cyclecard._id"
 					/>
 				</div>
 				<h3 v-else>No global Credit cards in the system.</h3>
@@ -161,6 +161,11 @@ export default {
 
 		this.$root.$on("edited_global_card", async (data) => {
 			console.log("EDITED GLOBAL CARD RECIEVED: ", data);
+
+			// Change the cards data in global store with the data passed up
+			let u = this.global_cards.map((card) => card._id).indexOf(data._id); // find index of user card
+			this.global_cards.splice(u, 1, data);
+
 			let keys = Object.keys(data);
 
 			for (let i = 0; i < keys.length; i++) {
