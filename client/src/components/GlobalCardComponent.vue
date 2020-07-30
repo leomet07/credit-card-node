@@ -1,20 +1,27 @@
 <template>
-	<div id="card" v-if="render_draw">
-		<p ref="name">{{ name }}</p>
-		<button class="button" v-on:click="delete_card">Delete me</button>
-		<form class="form" ref="form">
-			<TextInput type="text" ref="name_update" placeholder="Update Name" />
-			<input class="button" v-on:click="update" id="submit" type="submit" value="Update" />
-		</form>
-		<button class="button" v-on:click="addUnderUser">Add Under User</button>
+	<div>
+		<div id="card" v-if="render_draw">
+			<p ref="name">{{ name }}</p>
+			<button class="button" v-on:click="delete_card">Delete me</button>
+			<form class="form" ref="form">
+				<TextInput type="text" ref="name_update" placeholder="Update Name" />
+				<input class="button" v-on:click="update" id="submit" type="submit" value="Update" />
+			</form>
+			<button class="button" v-on:click="addUnderUser">Add Under User</button>
+		</div>
+		<div>
+			<CardDisplay></CardDisplay>
+		</div>
 	</div>
 </template>
 
 <script>
 import TextInput from "@/components/TextInput.vue";
+import CardDisplay from "@/components/CardDisplayComponent.vue";
 export default {
 	components: {
 		TextInput,
+		CardDisplay,
 	},
 	name: "GlobalCard",
 	props: {
@@ -154,6 +161,7 @@ a {
 	padding: 5%;
 	width: 80%;
 	border: 1px solid black;
+	display: inline-block;
 }
 
 .button {

@@ -247,13 +247,15 @@ async function get_user_cards(auth_token, uid) {
 </script>
 <style scoped>
 #global_cards {
-	width: 400px;
+	width: 900px;
 	/* border: 1px solid red; */
 	border: 1px solid black;
 	display: inline-block;
-	padding: auto;
+	padding-left: auto;
 	padding-bottom: 10px;
+	padding-right: auto;
 }
+
 #user_cards {
 	width: 400px;
 	/* border: 1px solid red; */
