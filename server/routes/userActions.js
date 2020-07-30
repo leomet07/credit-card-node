@@ -2,10 +2,6 @@ const router = require("express").Router();
 const User = require("../model/User");
 const User_Card = require("../model/User_Card");
 const Global_Card = require("../model/Global_Card");
-const {
-	query
-} = require("express");
-
 
 async function get_cards(user) {
 	const cards = user.cards;
@@ -18,8 +14,8 @@ async function get_cards(user) {
 		if (!global_card) {
 			return {
 				error: true,
-				message: "(USER CARDS: ): global card with that ID doesnt exist",
-			}
+				message: "Global card with that ID doesnt exist",
+			};
 		}
 		global_card = global_card.toObject();
 		delete global_card["_id"];
@@ -127,20 +123,17 @@ router.post("/createCard", async function (req, res) {
 			}
 		);
 		// find with changes
-		user = await User.findOne(user_query)
+		user = await User.findOne(user_query);
 
-		user = user.toObject()
+		user = user.toObject();
 		// console.log("user: ", user)
 		// Get all cards from db
 		const db_cards = await get_cards(user);
 		// console.log("db_cards: ", db_cards)
 		return res.send({
 			created: true,
-			cards: db_cards
-		})
-
-
-
+			cards: db_cards,
+		});
 	} catch (err) {
 		return res.send(200, {
 			appended: false,
@@ -148,7 +141,6 @@ router.post("/createCard", async function (req, res) {
 		});
 	}
 });
-
 
 router.delete("/deleteCard", async function (req, res) {
 	/*
@@ -161,25 +153,26 @@ router.delete("/deleteCard", async function (req, res) {
 	console.log('New cards: ', cards)
 	*/
 
-	User.findByIdAndUpdate(req.body.userid, {
-		$pull: {
-			"cards": {
-				global_card_id: req.body.global_card_id
+	User.findByIdAndUpdate(
+		req.body.userid, {
+			$pull: {
+				cards: {
+					global_card_id: req.body.global_card_id,
+				},
+			},
+		},
+		function (err) {
+			if (err) {
+				return res.send({
+					deleted: false,
+					message: err.message,
+				});
 			}
-		}
-	}, function (err) {
-		if (err) {
 			return res.send({
-				deleted: false,
-				message: err.message
-			})
+				deleted: true,
+			});
 		}
-		return res.send({
-			deleted: true,
-
-		})
-	})
-
+	);
 });
 
 module.exports = {

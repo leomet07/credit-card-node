@@ -24,7 +24,7 @@ export default {
 	methods: {
 		addUnderUser: async function () {
 			let response = await fetch(
-				"http://192.168.7.36:3000/api/user/action/createCard",
+				window.BASE_URL + "/api/user/action/createCard",
 				{
 					method: "POST",
 					headers: {
@@ -125,14 +125,7 @@ export default {
 h3 {
 	margin: 40px 0 0;
 }
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-li {
-	display: inline-block;
-	margin: 0 10px;
-}
+
 a {
 	color: #42b983;
 }

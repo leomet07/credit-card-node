@@ -1,7 +1,9 @@
 <template>
-	<div id="card">
-		<p>{{ name }}</p>
-		<button class="button" v-on:click="delete_card">Delete me</button>
+	<div>
+		<div id="card">
+			<p>{{ name }}</p>
+			<button class="button" v-on:click="delete_card">Delete me</button>
+		</div>
 	</div>
 </template>
 
@@ -23,29 +25,26 @@ export default {
 		delete_card: async function () {
 			console.log("Deleting card: " + this.card_id);
 
-			let response = null;
+			let response = await fetch(
+				window.BASE_URL + "/api/user/action/deleteCard",
+				{
+					method: "DELETE",
+					headers: {
+						"content-type": "application/json",
+						"auth-token": this.$global.auth_token,
+					},
+					body: JSON.stringify({
+						userid: this.$global.uid,
+						global_card_id: this.card_id,
+					}),
+				}
+			);
+			response = await response.json();
 
-			await fetch(window.BASE_URL + "/api/user/action/deleteCard", {
-				method: "DELETE",
-				headers: {
-					"content-type": "application/json",
-					"auth-token": this.$global.auth_token,
-				},
-				body: JSON.stringify({
-					userid: this.$global.uid,
-					global_card_id: this.card_id,
-				}),
-			})
-				.then((text) => text.text())
-				.then((r) => {
-					response = JSON.parse(r);
-					console.log("Result: ", response);
-				});
-
-			// if (response && response.deleted) {
-			// 	console.log("Deleted sucessfully!");
-			// 	this.$root.$emit("deleted_global_card", this.card_id);
-			// }
+			if (response && response.deleted) {
+				console.log("Deleted sucessfully!", response);
+				this.$root.$emit("deleted_user_card", this.card_id);
+			}
 		},
 	},
 };
@@ -72,6 +71,7 @@ a {
 	padding: 5%;
 	width: 80%;
 	border: 1px solid black;
+	display: inline-block;
 }
 
 .button {

@@ -2,19 +2,21 @@
 	<div class="home">
 		<h1>Credit Card Search</h1>
 		<div v-if="$global.logged_in">
-			<h1>You are logged in!</h1>
+			<h2>You are logged in!</h2>
 
 			<div id="global_cards">
 				<h2>Card types</h2>
-
-				<GlobalCard
-					:ref="cyclecard._id"
-					class="global_card"
-					:id="cyclecard._id"
-					:name="cyclecard.name"
-					v-for="cyclecard in global_cards"
-					:key="cyclecard._id"
-				/>
+				<div id="global_cards_display" v-if="global_cards.length > 0">
+					<GlobalCard
+						:ref="cyclecard._id"
+						class="global_card"
+						:id="cyclecard._id"
+						:name="cyclecard.name"
+						v-for="cyclecard in global_cards"
+						:key="cyclecard._id"
+					/>
+				</div>
+				<h3 v-else>No global Credit cards in the system.</h3>
 				<form v-on:submit="create_global_card" id="add_global_card" autocomplete="off" action="#">
 					<TextInput
 						id="global_card_name"
@@ -39,6 +41,7 @@
 						:ref="'usercard' + usercard.global_card_id"
 						class="user_card"
 						:card_id="usercard.global_card_id"
+						:id="'usercard' + usercard.global_card_id"
 						:name="usercard.name"
 						v-for="usercard in user_cards"
 						:key="usercard._id"
@@ -171,6 +174,12 @@ export default {
 			console.log("CardAddUnderUser recieved");
 
 			this.user_cards = data.cards;
+		});
+		this.$root.$on("deleted_user_card", (id) => {
+			console.log("deleted_user_card recieved");
+			console.log(this.user_cards);
+			let i = this.user_cards.map((card) => card.card_id).indexOf(id); // find index of your object
+			this.user_cards.splice(i, 1); // remove it from array
 		});
 	},
 };
