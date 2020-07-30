@@ -109,4 +109,8 @@ async function verify_token(token) {
 #nav .link.router-link-exact-active {
 	color: #42b983;
 }
+body {
+	margin-left: auto;
+	margin-right: auto;
+}
 </style>
