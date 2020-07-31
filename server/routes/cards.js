@@ -2,7 +2,8 @@ const router = require("express").Router();
 const verifyToken = require("./verifyToken");
 const Global_Card = require("../model/Global_Card");
 const {
-	cardValidation
+	cardValidation,
+	cardUpdateValidation
 } = require("../validation");
 const UsercardModel = require("../model/User_Card");
 const User = require("../model/User");
@@ -33,9 +34,11 @@ router.post("/create", async (req, res) => {
 		);
 	}
 	req.body.name = String(req.body.name).toLowerCase();
+	req.body.card_network = String(req.body.card_network).toLowerCase();
 	// Check if email exists in db
 	const cardExist = await Global_Card.findOne({
 		name: req.body.name,
+		card_network: req.body.card_network
 	});
 
 	if (cardExist) {
@@ -49,6 +52,7 @@ router.post("/create", async (req, res) => {
 
 	const card = new Global_Card({
 		name: req.body.name,
+		card_network: req.body.card_network
 	});
 
 	let savedCard;
@@ -64,7 +68,7 @@ router.post("/create", async (req, res) => {
 });
 
 router.put("/update", async function (req, res) {
-	const validation = cardValidation(req.body.update);
+	const validation = cardUpdateValidation(req.body.update);
 	if ("error" in validation) {
 		return res.status(200).end(
 			JSON.stringify({

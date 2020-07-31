@@ -81,7 +81,7 @@ export default {
 			console.log("Submitted");
 			if (this.$global.checked_token) {
 				const name = this.$refs.global_card_name.$refs.text.value;
-				const body = { name: name };
+				const body = { name: name, card_network: "visa" };
 
 				const raw = JSON.stringify(body);
 				console.log(this.$global);
