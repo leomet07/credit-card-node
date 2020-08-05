@@ -13,7 +13,9 @@ router.use(verifyToken);
 // Get all the cards, or search by params in request body.
 router.get("/", async (req, res) => {
 	try {
-		const cards = await Global_Card.find(req.body || {});
+		const skip_val = req.body.skip || 0
+		const cards = await Global_Card.find(req.body || {}).skip(skip_val).limit(2);
+		console.log(cards)
 		res.json(cards);
 	} catch (err) {
 		res.json({
