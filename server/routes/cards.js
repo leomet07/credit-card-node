@@ -11,12 +11,20 @@ const User = require("../model/User");
 // Cards data is only for authenitcated users
 router.use(verifyToken);
 // Get all the cards, or search by params in request body.
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
 	try {
 		const skip_val = req.body.skip || 0
-		const cards = await Global_Card.find(req.body || {}).skip(skip_val).limit(2);
-		console.log(cards)
-		res.json(cards);
+		const cards = await Global_Card.find(req.body.query || {}).skip(skip_val).limit(2);
+		const amount = await Global_Card.countDocuments(req.body || {})
+
+		console.log("Cards found: " + amount, "SKipping " + skip_val, "Cards", cards)
+
+
+		res.json({
+			global_cards: cards,
+			count: amount,
+			skipped: skip_val
+		});
 	} catch (err) {
 		res.json({
 			message: err.message,

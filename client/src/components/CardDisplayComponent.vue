@@ -14,14 +14,8 @@
 						height="55.51717"
 					>
 						<defs id="defs17040" />
-						<g
-							transform="translate(620.34041,-56.426733)"
-							id="layer1"
-						>
-							<g
-								transform="translate(0.4494891,0.3945659)"
-								id="logotype"
-							>
+						<g transform="translate(620.34041,-56.426733)" id="layer1">
+							<g transform="translate(0.4494891,0.3945659)" id="logotype">
 								<g id="g17202">
 									<g id="logo">
 										<path
@@ -139,13 +133,7 @@
 						xml:space="preserve"
 					>
 						<defs>
-							<linearGradient
-								id="gold-gradient"
-								x1="0%"
-								y1="0%"
-								x2="100%"
-								y2="0%"
-							>
+							<linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
 								<stop offset="0%" stop-color="#c79750" />
 								<stop offset="20%" stop-color="#e6b964" />
 								<stop offset="50%" stop-color=" #f8e889" />
@@ -160,62 +148,13 @@
 								d="M308.8,375.3H79.1C38.2,375.3,5,342.1,5,301.2V79.1C5,38.2,38.2,5,79.1,5h229.7
 		c40.9,0,74.1,33.2,74.1,74.1v222.2C382.8,342.1,349.7,375.3,308.8,375.3z"
 							/>
-							<line
-								id="XMLID_2_"
-								class="st0"
-								x1="109.9"
-								y1="5.1"
-								x2="109.9"
-								y2="375.1"
-							/>
-							<line
-								id="XMLID_3_"
-								class="st0"
-								x1="4.9"
-								y1="95.1"
-								x2="109.9"
-								y2="95.1"
-							/>
-							<line
-								id="XMLID_7_"
-								class="st0"
-								x1="4.9"
-								y1="185.1"
-								x2="109.9"
-								y2="185.1"
-							/>
-							<line
-								id="XMLID_8_"
-								class="st0"
-								x1="1.9"
-								y1="275.1"
-								x2="106.9"
-								y2="275.1"
-							/>
-							<line
-								id="XMLID_9_"
-								class="st0"
-								x1="276.9"
-								y1="275.1"
-								x2="381.9"
-								y2="275.1"
-							/>
-							<line
-								id="XMLID_10_"
-								class="st0"
-								x1="274.9"
-								y1="185.1"
-								x2="379.9"
-								y2="185.1"
-							/>
-							<line
-								id="XMLID_11_"
-								class="st0"
-								x1="277.9"
-								y1="95.1"
-								x2="382.9"
-								y2="95.1"
-							/>
+							<line id="XMLID_2_" class="st0" x1="109.9" y1="5.1" x2="109.9" y2="375.1" />
+							<line id="XMLID_3_" class="st0" x1="4.9" y1="95.1" x2="109.9" y2="95.1" />
+							<line id="XMLID_7_" class="st0" x1="4.9" y1="185.1" x2="109.9" y2="185.1" />
+							<line id="XMLID_8_" class="st0" x1="1.9" y1="275.1" x2="106.9" y2="275.1" />
+							<line id="XMLID_9_" class="st0" x1="276.9" y1="275.1" x2="381.9" y2="275.1" />
+							<line id="XMLID_10_" class="st0" x1="274.9" y1="185.1" x2="379.9" y2="185.1" />
+							<line id="XMLID_11_" class="st0" x1="277.9" y1="95.1" x2="382.9" y2="95.1" />
 							<g id="XMLID_6_">
 								<g id="XMLID_14_">
 									<g id="XMLID_32_">
@@ -274,9 +213,7 @@
 							<rdf:RDF>
 								<cc:Work rdf:about>
 									<dc:format>image/svg+xml</dc:format>
-									<dc:type
-										rdf:resource="http://purl.org/dc/dcmitype/StillImage"
-									/>
+									<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
 									<dc:title />
 								</cc:Work>
 							</rdf:RDF>
@@ -303,10 +240,7 @@
 							inkscape:window-maximized="1"
 							inkscape:current-layer="Layer_1"
 						/>
-						<g
-							id="g4158"
-							transform="matrix(4.4299631,0,0,4.4299631,-81.165783,-105.04783)"
-						>
+						<g id="g4158" transform="matrix(4.4299631,0,0,4.4299631,-81.165783,-105.04783)">
 							<polygon
 								points="116.145,95.719 97.858,95.719 109.296,24.995 127.582,24.995 "
 								id="polygon9"

@@ -71,6 +71,8 @@ import GlobalCard from "@/components/GlobalCardComponent.vue";
 import UserCard from "@/components/UserCardComponent.vue";
 import TextInput from "@/components/TextInput.vue";
 
+const cards_per_page = 2;
+
 export default {
 	name: "Home",
 	components: { GlobalCard, UserCard, TextInput },
@@ -118,6 +120,7 @@ export default {
 		return {
 			global_cards: [],
 			user_cards: [],
+			global_cards_skip: 2,
 		};
 	},
 	async created() {
@@ -128,8 +131,14 @@ export default {
 			// get token cuz it takes a second to load.
 			const auth_token = this.$global.auth_token;
 			if (auth_token && auth_token != "" && auth_token !== null) {
-				const global_cards = await get_global_cards(auth_token);
-				console.log({ global_cards });
+				const { global_cards, count, skipped } = await get_global_cards(
+					auth_token,
+					this.global_cards_skip
+				);
+				console.log({ global_cards, count, skipped });
+				const pages_required = Math.ceil(count / cards_per_page);
+				console.log(pages_required);
+
 				this.global_cards = global_cards;
 
 				console.log("uid ", this.$global.uid);
@@ -192,16 +201,20 @@ export default {
 	},
 };
 
-async function get_global_cards(auth_token) {
+async function get_global_cards(auth_token, skip) {
 	//var myHeaders = new Headers();
 	let myHeaders = {};
-	//myHeaders.append("Content-Type", "application/json");
+	myHeaders["Content-Type"] = "application/json";
 	myHeaders["auth-token"] = auth_token;
 
+	console.log("Going to skip: ", skip);
+	const body = JSON.stringify({ skip: skip });
+
 	var requestOptions = {
-		method: "GET",
+		method: "POST",
 		headers: myHeaders,
 		redirect: "follow",
+		body: body,
 	};
 
 	let cards = [];
@@ -242,10 +255,9 @@ async function get_user_cards(auth_token, uid) {
 			cards = result;
 		})
 		.catch((error) => console.log("Error", error));
+	const result = JSON.parse(cards);
 
-	cards = JSON.parse(cards);
-
-	return cards;
+	return result;
 }
 </script>
 <style scoped>
