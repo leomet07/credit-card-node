@@ -11,7 +11,8 @@
 			</span>
 			<span v-if="!$global.logged_in">
 				&nbsp;
-				<router-link class="link" to="/signup">Sign Up</router-link>&nbsp;
+				<router-link class="link" to="/signup">Sign Up</router-link
+				>&nbsp;
 			</span>
 			<span v-if="$global.logged_in">
 				&nbsp;
@@ -28,7 +29,7 @@ export default {
 	name: "App",
 	components: {},
 	methods: {
-		logout: async function () {
+		logout: async function() {
 			// logout
 			localStorage.clear();
 			this.$global.auth_token = "";

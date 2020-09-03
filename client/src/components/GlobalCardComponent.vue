@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div id="card" v-if="render_draw">
-			<p ref="name">{{ name }}</p>
+			<p ref="name">{{ display_name }}</p>
 			<CardDisplay />
 			<button class="button" v-on:click="delete_card">Delete me</button>
 			<form class="form" ref="form">
@@ -30,7 +30,11 @@ export default {
 	data() {
 		return {
 			render_draw: true,
+			display_name: "",
 		};
+	},
+	created() {
+		this.display_name = this.$global.makeTitleCase(this.name);
 	},
 	methods: {
 		addUnderUser: async function () {

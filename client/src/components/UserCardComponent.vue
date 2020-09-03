@@ -20,7 +20,7 @@ export default {
 	},
 	data() {
 		return {
-			name_data: this.name,
+			name_data: this.$global.makeTitleCase(this.name),
 			card_id_data: this.card_id,
 		};
 	},

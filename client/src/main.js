@@ -12,10 +12,25 @@ const shared = {
 	message: "my global message",
 	logged_in: false,
 	checked_token: false,
-	BASE_URL: base_url
+	BASE_URL: base_url,
+	makeTitleCase: function (starter) {
+		const back = starter.split(" ").reduce((prev, current) => {
+			let txt =
+				current.charAt(0).toUpperCase() +
+				current.substr(1).toLowerCase();
+
+			return prev + txt + " ";
+		}, "");
+
+
+
+		return back
+	}
+
 }
 
 window.BASE_URL = base_url
+
 
 shared.install = function () {
 	Object.defineProperty(Vue.prototype, '$global', {

@@ -4,7 +4,7 @@
 		<div v-if="$global.logged_in">
 			<h2>You are logged in!</h2>
 
-			<div id="global_cards">
+			<div id="global_cards" v-on:scroll.passive="handleScroll">
 				<h2>Card types</h2>
 				<div id="global_cards_display" v-if="global_cards.length > 0">
 					<GlobalCard
@@ -77,6 +77,15 @@ export default {
 	name: "Home",
 	components: { GlobalCard, UserCard, TextInput },
 	methods: {
+		handleScroll: async function (e) {
+			console.log(e);
+			// lazyloadImages.forEach(function (img) {
+			// 	if (img.offsetTop < window.innerHeight + scrollTop) {
+			// 		img.src = img.dataset.src;
+			// 		img.classList.remove("lazy");
+			// 	}
+			// });
+		},
 		create_global_card: async function (e) {
 			e.preventDefault();
 
@@ -120,7 +129,7 @@ export default {
 		return {
 			global_cards: [],
 			user_cards: [],
-			global_cards_skip: 2,
+			global_cards_skip: 0,
 		};
 	},
 	async created() {
@@ -269,6 +278,8 @@ async function get_user_cards(auth_token, uid) {
 	padding-left: auto;
 	padding-bottom: 10px;
 	padding-right: auto;
+	height: 400px;
+	overflow: scroll;
 }
 
 #user_cards {
