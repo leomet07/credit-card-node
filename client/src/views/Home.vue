@@ -4,7 +4,7 @@
 		<div v-if="$global.logged_in">
 			<h2>You are logged in!</h2>
 
-			<div id="global_cards" v-on:scroll.passive="handleScroll">
+			<div id="global_cards" ref="global_cards">
 				<h2>Card types</h2>
 				<div id="global_cards_display" v-if="global_cards.length > 0">
 					<GlobalCard
@@ -17,7 +17,13 @@
 					/>
 				</div>
 				<h3 v-else>No global Credit cards in the system.</h3>
-				<form v-on:submit="create_global_card" id="add_global_card" autocomplete="off" action="#">
+				<form
+					ref="create_global_card_form "
+					v-on:submit="create_global_card"
+					id="add_global_card"
+					autocomplete="off"
+					action="#"
+				>
 					<TextInput
 						id="global_card_name"
 						ref="global_card_name"
@@ -71,20 +77,22 @@ import GlobalCard from "@/components/GlobalCardComponent.vue";
 import UserCard from "@/components/UserCardComponent.vue";
 import TextInput from "@/components/TextInput.vue";
 
-const cards_per_page = 2;
-
 export default {
 	name: "Home",
 	components: { GlobalCard, UserCard, TextInput },
 	methods: {
-		handleScroll: async function (e) {
-			console.log(e);
-			// lazyloadImages.forEach(function (img) {
-			// 	if (img.offsetTop < window.innerHeight + scrollTop) {
-			// 		img.src = img.dataset.src;
-			// 		img.classList.remove("lazy");
-			// 	}
-			// });
+		handleIntersect: async function (entries) {
+			if (entries[0].isIntersecting) {
+				console.warn("something is intersecting with the viewport");
+				console.log(this.global_cards.length);
+				const { global_cards, count, skipped } = await get_global_cards(
+					this.$global.auth_token,
+					this.global_cards.length
+				);
+				console.log({ global_cards, count, skipped });
+
+				this.global_cards = [...this.global_cards, ...global_cards];
+			}
 		},
 		create_global_card: async function (e) {
 			e.preventDefault();
@@ -145,8 +153,6 @@ export default {
 					this.global_cards_skip
 				);
 				console.log({ global_cards, count, skipped });
-				const pages_required = Math.ceil(count / cards_per_page);
-				console.log(pages_required);
 
 				this.global_cards = global_cards;
 
@@ -164,6 +170,16 @@ export default {
 				}
 			}
 			console.log("Done getting cards");
+			let options = {
+				root: null,
+				rootMargins: "0px",
+				threshold: 0.5,
+			};
+			const observer = new IntersectionObserver(
+				this.handleIntersect,
+				options
+			);
+			observer.observe(document.getElementById("add_global_card"));
 		});
 
 		this.$root.$on("deleted_global_card", async (id) => {
