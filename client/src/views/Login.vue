@@ -34,8 +34,16 @@ import TextInput from "@/components/TextInput.vue";
 export default {
 	name: "App",
 	components: { TextInput },
+	created() {
+		this.$root.$once("checked_token", async () => {
+			if (this.$global.logged_in) {
+				window.location.replace("/");
+			}
+		});
+	},
+
 	methods: {
-		login: async function(e) {
+		login: async function (e) {
 			console.log("Submitted");
 			e.preventDefault();
 			const email = this.$refs.email_signin.$refs.text.value;
@@ -44,7 +52,7 @@ export default {
 
 			await this.login_request(email, password);
 		},
-		login_request: async function(email, password) {
+		login_request: async function (email, password) {
 			//var myHeaders = new Headers();
 			let myHeaders = {};
 			//myHeaders.append("Content-Type", "application/json");

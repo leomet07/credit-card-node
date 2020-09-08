@@ -11,10 +11,12 @@
 						:ref="'global_card' + cyclecard._id"
 						class="global_card"
 						:card_id="cyclecard._id"
-						:name=" cyclecard.name"
+						:name="cyclecard.name"
 						v-for="cyclecard in global_cards"
-						:key="'global_card' +cyclecard._id"
+						:key="'global_card' + cyclecard._id"
 					/>
+
+					<hr id = "splitter"> </hr>
 				</div>
 				<h3 v-else>No global Credit cards in the system.</h3>
 				<form
@@ -179,7 +181,7 @@ export default {
 				this.handleIntersect,
 				options
 			);
-			observer.observe(document.getElementById("add_global_card"));
+			observer.observe(document.getElementById("splitter"));
 		});
 
 		this.$root.$on("deleted_global_card", async (id) => {
@@ -287,17 +289,25 @@ async function get_user_cards(auth_token, uid) {
 </script>
 <style scoped>
 #global_cards {
-	width: 400px;
+	width: 95%;
 	/* border: 1px solid red; */
 	border: 1px solid black;
 	display: inline-block;
 	padding-left: auto;
 	padding-bottom: 10px;
 	padding-right: auto;
-	height: 400px;
-	overflow: scroll;
+	height: 485px;
 }
-
+/* for mobile */
+@media only screen and (min-width: 800px) {
+	#global_cards{
+		width: 45%;
+	}
+}
+#global_cards_display {
+	overflow: scroll;
+	height: 300px;
+}
 #user_cards {
 	width: 400px;
 	/* border: 1px solid red; */
