@@ -6,6 +6,7 @@ const cardSchema = new mongoose.Schema({
 		required: true,
 		min: 4,
 		max: 50,
+		text: true
 	},
 	card_network: {
 		type: String,

@@ -10,7 +10,7 @@ const base_url = process.env.NODE_ENV == "development" ? 'http://192.168.7.36:30
 console.log("BASE_URL " + base_url)
 const shared = {
 	message: "my global message",
-	logged_in: false,
+	logged_in: null,
 	checked_token: false,
 	BASE_URL: base_url,
 	makeTitleCase: function (starter) {

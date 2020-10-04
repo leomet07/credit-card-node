@@ -6,6 +6,26 @@
 
 			<div id="global_cards" ref="global_cards">
 				<h2>Card types</h2>
+				<form
+					ref="search_global_card"
+					
+					id="search_global_card"
+					autocomplete="on"
+					action="#"
+					v-on:input= "search_changed"
+				>
+					<TextInput
+						id="global_card_search_name"
+						ref="global_card_search_name"
+						type="text"
+						name="global_card_search_name"
+						placeholder="Search for a card by name"
+						autocomplete="off"
+						class="input"
+						required
+					/>
+					<br />
+				</form>
 				<div id="global_cards_display" v-if="global_cards.length > 0">
 					<GlobalCard
 						:ref="'global_card' + cyclecard._id"
@@ -27,10 +47,10 @@
 					action="#"
 				>
 					<TextInput
-						id="global_card_name"
-						ref="global_card_name"
+						id="global_card_add_name"
+						ref="global_card_add_name"
 						type="text"
-						name="global_card_name"
+						name="global_card_add_name"
 						placeholder="Card Name"
 						autocomplete="off"
 						class="input"
@@ -70,6 +90,13 @@
 		/>
 
 		-->
+		
+		<div v-else-if="$global.checked_token == false">
+			<h3>Loading</h3>
+		</div>
+		<div v-else-if="$global.logged_in === false">
+			<h3>Sign in</h3>
+		</div>
 	</div>
 </template>
 
@@ -83,13 +110,38 @@ export default {
 	name: "Home",
 	components: { GlobalCard, UserCard, TextInput },
 	methods: {
+		search_changed: async function () {
+			console.log("Search Changed");
+			let current = this.$refs.global_card_search_name.$refs.text.value;
+			console.log(current);
+
+			const auth_token = this.$global.auth_token;
+
+			const query = current ? { name: current } : null;
+
+			if (auth_token && auth_token != "" && auth_token !== null) {
+				const { global_cards, count, skipped } = await get_global_cards(
+					auth_token,
+					{
+						skip: this.global_cards_skip,
+						query: query,
+					}
+				);
+				console.log({ global_cards, count, skipped });
+
+				this.global_cards = global_cards;
+			}
+			console.log("Done getting cards");
+		},
 		handleIntersect: async function (entries) {
 			if (entries[0].isIntersecting) {
 				console.warn("something is intersecting with the viewport");
 				console.log(this.global_cards.length);
 				const { global_cards, count, skipped } = await get_global_cards(
 					this.$global.auth_token,
-					this.global_cards.length
+					{
+						skip: this.global_cards.length,
+					}
 				);
 				console.log({ global_cards, count, skipped });
 
@@ -101,7 +153,7 @@ export default {
 
 			console.log("Submitted");
 			if (this.$global.checked_token) {
-				const name = this.$refs.global_card_name.$refs.text.value;
+				const name = this.$refs.global_card_add_name.$refs.text.value;
 				const body = { name: name, card_network: "visa" };
 
 				const raw = JSON.stringify(body);
@@ -143,8 +195,9 @@ export default {
 		};
 	},
 	async created() {
-		console.log("Created");
+		console.log("Created", this.$global.logged_in);
 		this.$root.$once("checked_token", async () => {
+			console.log("Created", this.$global.logged_in);
 			// Add form event listener when token listener is avaialable
 			//perform some logic
 			// get token cuz it takes a second to load.
@@ -152,7 +205,9 @@ export default {
 			if (auth_token && auth_token != "" && auth_token !== null) {
 				const { global_cards, count, skipped } = await get_global_cards(
 					auth_token,
-					this.global_cards_skip
+					{
+						skip: this.global_cards_skip,
+					}
 				);
 				console.log({ global_cards, count, skipped });
 
@@ -172,16 +227,19 @@ export default {
 				}
 			}
 			console.log("Done getting cards");
-			let options = {
-				root: null,
-				rootMargins: "0px",
-				threshold: 0.5,
-			};
-			const observer = new IntersectionObserver(
-				this.handleIntersect,
-				options
-			);
-			observer.observe(document.getElementById("splitter"));
+
+			if (global_cards.length > 0) {
+				let options = {
+					root: null,
+					rootMargins: "0px",
+					threshold: 0.5,
+				};
+				const observer = new IntersectionObserver(
+					this.handleIntersect,
+					options
+				);
+				observer.observe(document.getElementById("splitter"));
+			}
 		});
 
 		this.$root.$on("deleted_global_card", async (id) => {
@@ -228,14 +286,15 @@ export default {
 	},
 };
 
-async function get_global_cards(auth_token, skip) {
+async function get_global_cards(auth_token, params) {
 	//var myHeaders = new Headers();
 	let myHeaders = {};
 	myHeaders["Content-Type"] = "application/json";
 	myHeaders["auth-token"] = auth_token;
 
-	console.log("Going to skip: ", skip);
-	const body = JSON.stringify({ skip: skip });
+	console.log("Going to skip: ", params.skip);
+	const body = JSON.stringify(params);
+	console.log("Body ", body);
 
 	var requestOptions = {
 		method: "POST",
@@ -296,11 +355,11 @@ async function get_user_cards(auth_token, uid) {
 	padding-left: auto;
 	padding-bottom: 10px;
 	padding-right: auto;
-	height: 485px;
+	height: 530px;
 }
 /* for mobile */
 @media only screen and (min-width: 800px) {
-	#global_cards{
+	#global_cards {
 		width: 45%;
 	}
 }

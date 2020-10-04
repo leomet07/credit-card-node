@@ -29,7 +29,7 @@ export default {
 	name: "App",
 	components: {},
 	methods: {
-		logout: async function() {
+		logout: async function () {
 			// logout
 			localStorage.clear();
 			this.$global.auth_token = "";
@@ -58,6 +58,9 @@ export default {
 			this.$global.checked_token = true;
 			this.$global.uid = _id;
 			console.log("this.global in app", this.$global);
+		} else {
+			this.$global.logged_in = false;
+			this.$global.checked_token = true;
 		}
 
 		this.$root.$emit("checked_token");
@@ -82,8 +85,7 @@ async function verify_token(token) {
 		.then((response) => response.text())
 		.then((result) => {
 			r = JSON.parse(result);
-		})
-		.catch((error) => console.log("error", error));
+		});
 
 	return r;
 }

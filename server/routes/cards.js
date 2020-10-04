@@ -13,9 +13,17 @@ router.use(verifyToken);
 // Get all the cards, or search by params in request body.
 router.post("/", async (req, res) => {
 	try {
-		const skip_val = req.body.skip || 0
-		const cards = await Global_Card.find(req.body.query || {}).skip(skip_val).limit(2);
-		const amount = await Global_Card.countDocuments(req.body || {})
+		const skip_val = req.body.skip || 0;
+
+		const query = req.body.query ? {
+			$text: {
+				$search: req.body.query.name
+			}
+		} : {};
+		const cards = await Global_Card.find(query).skip(skip_val).limit(2);
+		console.log(req.body.query || {})
+
+		const amount = await Global_Card.countDocuments(query)
 
 		console.log("Cards found: " + amount, "SKipping " + skip_val, "Cards", cards)
 
@@ -26,6 +34,7 @@ router.post("/", async (req, res) => {
 			skipped: skip_val
 		});
 	} catch (err) {
+		console.log(err)
 		res.json({
 			message: err.message,
 		});
